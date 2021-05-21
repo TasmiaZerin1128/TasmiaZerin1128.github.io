@@ -1,0 +1,700 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Ubuntu:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Parisienne&family=Tangerine:wght@700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+    text-decoration:none;
+}
+html{
+    scroll-behavior: smooth;
+}
+/* custom scroll bar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* all similar style */
+section{
+    padding: 100px 0;
+}
+.about, .services, .skills, .teams, .footer{
+    font-family: 'Poppins', sans-serif;
+}
+.max-width{
+    max-width: 1300px;
+    padding: 0 80px;
+    margin: auto;
+}
+.about .about-content,
+.services .serv-content,
+.skills .skills-content{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+}
+section .title{
+    text-align: center;
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 60px;
+    padding-bottom: 20px;
+    font-family: 'Ubuntu', sans-serif;
+}
+section .title::before{
+    content:"";
+    position: absolute;
+    left: 50%;
+    width: 180px;
+    height: 3px;
+    transform: translateX(-50%);
+}
+section .title::after{
+    position: absolute;
+    left: 50%;
+    font-size: 20px;
+    padding: 5px;
+    transform: translateX(-50%);
+}
+
+
+/* navbar styling */
+.navbar{
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    padding: 30px 0;
+    font-family: 'Ubuntu',sans-serif;
+    transition: all 0.3s ease;
+}
+.navbar.sticky{
+    padding: 15px 0;
+    background: #f4a261;
+}
+.navbar .max-width{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.navbar .logo a{
+    color: white;
+    font-size: 35px;
+    font-weight: 600;
+    font-family: 'Ubuntu',bold;
+}
+.navbar .logo .scroll a{
+    color: white;
+    font-size: 35px;
+    font-weight: 600;
+    font-family: 'Ubuntu',bold;
+}
+
+.navbar.sticky .logo a{
+    color: white;
+    font-size: 35px;
+    font-weight: 600;
+    font-family: 'Ubuntu',bold;
+}
+
+.navbar .logo a span{
+    color: #f4a261;
+}
+.navbar.sticky .logo a span{
+    color: white;
+    transition: all 0.3s ease;
+}
+.navbar .menu li{
+    list-style: none;
+    display: inline-block;
+}
+.navbar .menu li a{
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 25px;
+    transition: color 0.2s ease;
+}
+.navbar .menu li a:hover{
+    color:#f4a261;
+}
+.navbar.sticky .menu li a:hover{
+    color: white
+}
+
+
+/* menu btn styling */
+.menu-btn{
+    color: white;
+    font-size: 23px;
+    cursor: pointer;
+    display: none;
+}
+.scroll-up-btn{
+    position: fixed;
+    height: 45px;
+    width: 42px;
+    background: #f4a261;
+    right: 30px;
+    bottom: 10px;
+    text-align: center;
+    line-height: 45px;
+    color: #fff;
+    z-index: 9999;
+    font-size: 30px;
+    border-radius: 6px;
+    border-bottom-width: 2px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+.scroll-up-btn.show{
+    bottom: 30px;
+    opacity: 1;
+    pointer-events: auto;
+}
+/* home section styling */
+.home{
+    display: flex;
+    background: url("Images/T4.1.png") no-repeat center;
+    height: 100vh;
+    color: white ;
+    min-height: 500px;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: 'Ubuntu',sans-serif;
+}
+.home .max-width{
+    margin: auto 0 auto 40px;
+}
+.home .home-content .mySign{
+    height: 180px;
+    padding: 10px;
+    border-spacing: 60px;
+}
+.home .home-content .text-1{
+    font-size: 27px;
+}
+.home .home-content .text-2{
+    font-family: 'Great Vibes';
+    font-size: 75px;
+    font-weight: 400;
+    margin-top: 9px;
+    margin-left: -3px;
+}
+.home .home-content .text-3{
+    font-size: 40px;
+    margin: 5px
+}
+.home .home-content .text-3 span{
+    color: #f4a261;
+    font-weight: 500;
+}
+.home .home-content a{
+    display: inline-block;
+    background: #f4a261;
+    color: black;
+    font-size: 25px;
+    font-weight: 600;
+    padding: 12px 36px;
+    margin-top: 20px;
+    border-radius: 6px;
+    border: 2px solid #f4a261;
+    transition: all 0.3s ease;
+}
+
+.home .home-content a:hover{
+    color: #f4a261;
+    background: none;
+}
+
+
+/* about section styling */
+
+.about .title::before{
+    background: #111;
+    bottom: -167px;
+}
+.about .title::after{
+    content:" Who I Am ";
+    bottom: -182px;
+    color: #f4a261;
+    background: #fff;
+}
+
+.about .about-content .left {
+    width: 45%;
+}
+.about .about-content .left img{
+    height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.about .about-content .right {
+    width: 55%;
+}
+.about .about-content .right .text{
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.about .about-content .right .text span{
+    color: #f4a261;
+}
+.about .about-content .right p{
+    text-align: justify;
+}
+.about .about-content .right a{
+    display: inline-block;
+    background: #f4a261;
+    color: black;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 6px;
+    border: 2px solid #f4a261;
+    transition: all 0.3s ease;
+}
+.about .about-content .right a:hover{
+    color: #f4a261;
+    background: none;
+}
+
+/* services section styling */
+.services, .teams{
+    color: #fff;
+    background: #111;
+}
+.services .title{
+    color: #fff;
+}
+.services .title::before{
+    background: #fff;
+    bottom: -1000px;
+}
+.services .title::after{
+    background: #111;
+    content: " What I Provide ";
+    bottom: -1015px;
+    color: #f4a261;
+}
+.services .serv-content .card{
+    width: calc(33% - 20px);
+    background: #222;
+    text-align: center;
+    border-radius: 6px;
+    padding: 35px 30px;
+    cursor: pointer;
+}
+.services .serv-content .card:hover{
+    background: #f4a261;
+}
+.services .serv-content .card .box{
+    transition: all 0.3 ease;
+}
+.services .serv-content .card:hover .box{
+    transform: scale(1.05);
+}
+.services .serv-content .card i{
+    margin-bottom: 20px;
+    font-size: 25px;
+    color: #f4a261;
+}
+.services .serv-content .card p{
+    padding: 15px;
+    text-align: center;
+}
+.services .serv-content .card:hover i{
+    color: #111;
+}
+.services .serv-content .card:hover .text{
+    color: #111;
+}
+.services .serv-content .card:hover p{
+    color: #111;
+}
+.services .serv-content .card .text{
+    font-family: 'Great Vibes';
+    font-size: 35px;
+    font-weight: 400;
+    color: #f4a261;
+}
+
+/* skills section styling */
+.skills .title::before{
+    background: #000;
+    bottom: -1590px;
+}
+.skills .title::after{
+    background: #fff;
+    content: " What I Know ";
+    bottom: -1605px;
+    color: #f4a261;
+}
+.skills .skills-content .column{
+    width: calc(50% - 30px);
+}
+.skills .skills-content .left .text{
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.skills .skills-content .left p{
+    text-align: justify;
+}
+.skills .skills-content .left a{
+    display: inline-block;
+    background: #f4a261;
+    color: black;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 8px 16px;
+    margin-top: 20px;
+    border-radius: 6px;
+    border: 2px solid #f4a261;
+    transition: all 0.3s ease;
+}
+.skills .skills-content .left a:hover{
+    color: #f4a261;
+    background: none;
+}
+.skills .skills-content .right .bars{
+    margin-bottom: 15px;
+}
+.skills .skills-content .right .info{
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+    justify-content: space-between ;
+}
+.skills .skills-content .right .span{
+    font-weight: 600;
+    font-size: 18px;
+}
+.skills .skills-content .right .line{
+    height: 6px;
+    width: 100%;
+    background: lightgrey;
+    position: relative;
+}
+.skills .skills-content .right .line::before{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 70%;
+    left: 0;
+    top:0;
+    background: #f4a261;
+}
+.skills .skills-content .right .java::before{
+    width: 90%;
+}
+.skills .skills-content .right .js::before{
+    width: 10%;
+}
+.skills .skills-content .right .ai::before{
+    width: 95%;
+}
+.skills .skills-content .right .sql::before{
+    width: 50%;
+}
+
+/* teams section styling */
+.teams .title::before{
+    background: #fff;
+    bottom: -2160px;
+}
+.teams .title::after{
+    background: #111;
+    content: " Who with Me ";
+    bottom: -2175px;
+    color: #f4a261;
+}
+.teams .carousel .card{
+    background: #222;
+    border-radius: 6px;
+    padding: 25px 35px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.teams .carousel .card:hover{
+    background: #f4a261;
+}
+.teams .carousel .card .box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center ;
+    transition: all 0.3s ease;
+}
+.teams .carousel .card:hover .box{
+    transform: scale(1.05);
+}
+.teams .carousel .card .text{
+    font-family: 'Great Vibes';
+    font-size: 35px;
+    color: #f4a261;
+    font-weight: 500;
+    margin: 10px 0 7px 0;
+}
+.teams .carousel .card:hover .text{
+    color: #000;
+}
+.teams .carousel .card img{
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 15%;
+    border: 5px solid #f4a261;
+}
+.teams .carousel .card:hover img{
+    border-color: #000;
+}
+.owl-dots{
+    text-align: center;
+    margin-top: 20px;
+}
+.owl-dot{
+    height: 13px;
+    width: 13px;
+    margin: 0 5px;
+    outline: none!important;
+    border-radius: 50%;
+    border: 2px solid #f4a261!important;
+}
+.owl-dot.active{
+    width: 35px;
+    border-radius: 14px;
+}
+.owl-dot.active,
+.owl-dot:hover{
+    background: #f4a261!important;
+}
+
+/* gallery section styling */
+.gallery .title::before{
+    background: #111;
+    bottom: -2840px;
+}
+.gallery .title::after{
+    background: #fff;
+    content: " What I Do ";
+    bottom: -2855px;
+    color: #f4a261;
+}
+.gallery .carousel-2 .card{
+    height: 400px;
+    width: 550px;
+    background: black;
+    border-radius: 6px;
+    padding: 25px 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.gallery .carousel-2 .card:hover{
+    background: #f4a261;
+}
+.gallery .carousel-2 .card .box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center ;
+    transition: all 0.3s ease;
+}
+.gallery .carousel-2 .card:hover .box{
+    transform: scale(1.05);
+}
+.gallery .carousel-2 .card .text{
+    font-family: 'Great Vibes';
+    font-size: 45px;
+    color: #f4a261;
+    font-weight: 500;
+    margin: 20px 0 7px 0;
+}
+.gallery .carousel-2 .card .text2{
+    font-family: 'Great Vibes';
+    font-size: 35px;
+    color: #f4a261;
+    font-weight: 500;
+    margin: 20px 0 7px 0;
+}
+.gallery .carousel-2 .card:hover .text{
+    color: #000;
+}
+.gallery .carousel-2 .card:hover .text2{
+    color: #000;
+}
+.gallery .carousel-2 .card img{
+    height: 250px;
+    width: auto;
+    object-fit: cover;
+    border: 5px solid #f4a261;
+}
+.gallery .carousel-2 .card:hover img{
+    border-color: #000;
+    transform: scale(1.02);
+}
+.owl-dots{
+    text-align: center;
+    margin-top: 20px;
+}
+.owl-dot{
+    height: 13px;
+    width: 13px;
+    margin: 0 5px;
+    outline: none!important;
+    border-radius: 50%;
+    border: 2px solid #f4a261!important;
+}
+.owl-dot.active{
+    width: 35px;
+    border-radius: 14px;
+}
+.owl-dot.active,
+.owl-dot:hover{
+    background: #f4a261!important;
+}
+
+/* footer section styling */
+footer{
+    font-size: 25px;
+    font-weight: 500;
+    text-align: center;
+    background: #111;
+    padding: 20px 23px;
+    color: #fff;
+}
+footer span a{
+    font-family: 'Great Vibes';
+    font-size: 35px;
+    color: #f4a261;
+}
+footer span a:hover{
+    text-decoration: underline;
+}
+/* responsive */
+@media (max-width: 1300px) {
+    .home .max-width{
+        margin-left: 0px;
+    }
+}
+@media (max-width: 1104px) {
+    .about .about-content .left img{
+        height: 350px;
+        width: 350px;
+    }
+    .services .title::before{
+        bottom: -117%;
+    }
+    .services .title::after{
+        bottom: -119%;
+    }
+}
+@media (max-width: 947px){
+    .menu-btn{
+        display: block;
+        z-index: 999;
+    }
+    .menu-btn i.active:before{
+        content: "\f00d";
+    }
+    .navbar .menu{
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        left: -100%;
+        top: 0;
+        background: #111;
+        text-align: center;
+        padding-top: 80px;
+        transition: all 0.3s ease;
+    }
+    .navbar .menu.active{
+        left: 0;
+    }
+    .navbar .menu li{
+        display: block;
+    }
+    .navbar .menu li a{
+        display: inline-block;
+        margin: 20px 0;
+        font-size: 25px;
+    }
+    .home .home-content .text-2{
+        font-size: 70px;
+    }
+    .home .home-content .text-3{
+        font-size: 35px;
+    }
+    .home .home-content a{
+        font-size: 23px;
+        padding: 10px 30px;
+    }
+    .max-width{
+        max-width: 800px;
+    }
+    .about .about-content .column{
+        width: 50%;
+    }
+    .about .about-content .left{
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 60px;
+    }
+    .about .about-content .right{
+        flex: 100%;
+    }
+    .services .serv-content .card{
+        width: calc(50% - 10 px);
+        margin-bottom:  20px;
+    }
+    .skills .skills-content .column{
+        width: 100%;
+        margin-bottom: 25px;
+    }
+    .services .title::before{
+        bottom: -167%;
+    }
+    .services .title::after{
+        bottom: -169%;
+    }
+}
+@media (max-width: 690px) {
+    .max-width{
+        padding: 0 23px;
+    }
+    .home .home-content .text-2{
+        font-size: 60px;
+    }
+    .home .home-content .text-3{
+        font-size: 32px;
+    }
+    .home .home-content a{
+        font-size: 20px;
+    }
+    .services .serv-content .card{
+        width: 100%;
+    }
+}
+@media (max-width: 500px) {
+    .home .home-content .text-2{
+        font-size: 50px;
+    }
+    .home .home-content .text-3{
+        font-size: 27px;
+    }
+}
+
