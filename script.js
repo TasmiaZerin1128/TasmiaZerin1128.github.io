@@ -33,6 +33,7 @@ $(document).ready(function(){
         $('.menu-btn i').toggleClass("active");
     });
 
+
     //owl carousel
     $('.carousel').owlCarousel({
         margin: 20,
@@ -68,7 +69,7 @@ $(document).ready(function(){
             600:{
                 items: 2,
                 nav: false
-            },
+            }
         }
     });
 

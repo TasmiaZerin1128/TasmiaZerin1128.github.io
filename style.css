@@ -225,11 +225,11 @@ section .title::after{
 
 .about .title::before{
     background: #111;
-    bottom: -167px;
+    bottom: -187px;
 }
 .about .title::after{
     content:" Who I Am ";
-    bottom: -182px;
+    bottom: -202px;
     color: #f4a261;
     background: #fff;
 }
@@ -283,12 +283,12 @@ section .title::after{
 }
 .services .title::before{
     background: #fff;
-    bottom: -1000px;
+    bottom: -1040px;
 }
 .services .title::after{
     background: #111;
     content: " What I Provide ";
-    bottom: -1015px;
+    bottom: -1055px;
     color: #f4a261;
 }
 .services .serv-content .card{
@@ -336,12 +336,12 @@ section .title::after{
 /* skills section styling */
 .skills .title::before{
     background: #000;
-    bottom: -1590px;
+    bottom: -1660px;
 }
 .skills .title::after{
     background: #fff;
     content: " What I Know ";
-    bottom: -1605px;
+    bottom: -1675px;
     color: #f4a261;
 }
 .skills .skills-content .column{
@@ -415,12 +415,12 @@ section .title::after{
 /* teams section styling */
 .teams .title::before{
     background: #fff;
-    bottom: -2160px;
+    bottom: -2240px;
 }
 .teams .title::after{
     background: #111;
     content: " Who with Me ";
-    bottom: -2175px;
+    bottom: -2255px;
     color: #f4a261;
 }
 .teams .carousel .card{
@@ -487,12 +487,12 @@ section .title::after{
 /* gallery section styling */
 .gallery .title::before{
     background: #111;
-    bottom: -2840px;
+    bottom: -2940px;
 }
 .gallery .title::after{
     background: #fff;
     content: " What I Do ";
-    bottom: -2855px;
+    bottom: -2955px;
     color: #f4a261;
 }
 .gallery .carousel-2 .card{
@@ -500,7 +500,7 @@ section .title::after{
     width: 550px;
     background: black;
     border-radius: 6px;
-    padding: 25px 25px;
+    padding: 25px 35px;
     text-align: center;
     transition: all 0.3s ease;
 }
@@ -522,7 +522,7 @@ section .title::after{
     font-size: 45px;
     color: #f4a261;
     font-weight: 500;
-    margin: 20px 0 7px 0;
+    margin: 30px 0 10px 0;
 }
 .gallery .carousel-2 .card .text2{
     font-family: 'Great Vibes';
@@ -568,6 +568,8 @@ section .title::after{
     background: #f4a261!important;
 }
 
+
+
 /* footer section styling */
 footer{
     font-size: 25px;
@@ -585,22 +587,18 @@ footer span a{
 footer span a:hover{
     text-decoration: underline;
 }
-/* responsive */
-@media (max-width: 1300px) {
-    .home .max-width{
-        margin-left: 0px;
-    }
-}
+
+/* responsive media query start */
 @media (max-width: 1104px) {
     .about .about-content .left img{
         height: 350px;
         width: 350px;
     }
-    .services .title::before{
-        bottom: -117%;
-    }
-    .services .title::after{
-        bottom: -119%;
+}
+
+@media (max-width: 991px) {
+    .max-width{
+        padding: 0 50px;
     }
 }
 @media (max-width: 947px){
@@ -644,10 +642,10 @@ footer span a:hover{
         padding: 10px 30px;
     }
     .max-width{
-        max-width: 800px;
+        max-width: 930px;
     }
     .about .about-content .column{
-        width: 50%;
+        width: 100%;
     }
     .about .about-content .left{
         display: flex;
@@ -658,20 +656,15 @@ footer span a:hover{
         flex: 100%;
     }
     .services .serv-content .card{
-        width: calc(50% - 10 px);
-        margin-bottom:  20px;
+        width: calc(50% - 10px);
+        margin-bottom: 20px;
     }
     .skills .skills-content .column{
         width: 100%;
-        margin-bottom: 25px;
-    }
-    .services .title::before{
-        bottom: -167%;
-    }
-    .services .title::after{
-        bottom: -169%;
+        margin-bottom: 35px;
     }
 }
+
 @media (max-width: 690px) {
     .max-width{
         padding: 0 23px;
@@ -689,6 +682,7 @@ footer span a:hover{
         width: 100%;
     }
 }
+
 @media (max-width: 500px) {
     .home .home-content .text-2{
         font-size: 50px;
@@ -696,5 +690,24 @@ footer span a:hover{
     .home .home-content .text-3{
         font-size: 27px;
     }
+    .about .about-content .right .text,
+    .skills .skills-content .left .text{
+        font-size: 19px;
+    }
+    
+    .scroll-up-btn{
+        right: 15px;
+        bottom: 15px;
+        height: 38px;
+        width: 35px;
+        font-size: 23px;
+        line-height: 38px;
+    }
+    footer{
+        font-size: 15px;
+        font-weight: 400;
+    }
+    footer span a{
+        font-size: 25px;
+    }
 }
-
