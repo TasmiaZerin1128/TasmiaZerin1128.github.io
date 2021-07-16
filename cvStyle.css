@@ -29,7 +29,7 @@ body{
     margin: 100px;
     display: grid;
     grid-template-columns: 1fr 2fr;
-    box-shadow: 0 35px 55px rgb(0,0,0,0.1);
+    box-shadow: 0 35px 55px rgba(3, 2, 2, 0.637);
 }
 .container .left_side
 {
