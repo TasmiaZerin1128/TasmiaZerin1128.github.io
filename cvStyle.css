@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script&family=Titillium+Web:wght@400;700&display=swap');
+@import url('http://fonts.cdnfonts.com/css/reckoner');
+@import url('http://fonts.cdnfonts.com/css/baron-neue');
+@import url('http://fonts.cdnfonts.com/css/prime');
+@import url('http://fonts.cdnfonts.com/css/mohave');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito',sans-serif;
+}
+body{
+    background: url("bg2.jpg");
+    background-size: cover;
+    background-repeat: repeat;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    min-height: 100vh;
+}
+.container{
+    position: relative;
+    width: 100%;
+    max-width: 815px;
+    min-height: 1252px;
+    background: #1E1F20;
+    margin: 100px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    box-shadow: 0 35px 55px rgb(0,0,0,0.1);
+}
+.container .left_side
+{
+    position: relative;
+    background: #6F4A43;
+    padding: 40px;
+}
+.profileText
+{
+    font: #fff;
+    position: relative;
+    display: flex;
+    padding-top: 15px;
+    flex-direction: column;
+    font-family: 'Prime', sans-serif;
+    font-size: 20px;
+    padding-bottom: 20px;
+    border-bottom: 5px solid #1E1F20;
+}
+.profileText h5
+{
+    padding-top: 10px;
+    color: #1E1F20;
+    text-transform: uppercase;
+}
+.name h1
+{
+    line-height: 4rem;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0px;
+}
+.education .title, .interest .title
+{
+    color: #1E1F20;
+    font-family: 'Nunito',sans-serif;
+    letter-spacing: 6px;
+    padding-top: 75px;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+.education .uni .iit, .education .college .hcc, .education .school .hcs 
+{
+    font-family: 'Mohave',sans-serif;
+    font-size: 19px;
+    color: #000;
+    padding-top: 50px;
+    letter-spacing: 0.01rem;
+    text-transform: uppercase;
+}
+.education .uni .se, .education .college .hsc, .education .school .ssc
+{
+    font-family: 'Nunito',sans-serif;
+    color: #1E1F20;
+    padding-top: 12px;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+.uni .year, .college .year, .school .year
+{
+    font-family: 'Mohave Semi Bold',sans-serif;
+    padding-top: 15px;
+    color: #fff;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+}
+.education hr, .interest hr
+{
+    display: block;
+    width: 30%;
+    margin-top: 1em;
+    margin-left: 0;
+    border-color: #1E1F20;
+    background-color: #1E1F20;
+}
+.interest
+{
+    padding-top: 35px;
+}
+.interest ul
+{
+    position: relative;
+}
+.interest ul li
+{
+    position: relative;
+    list-style: none;
+    margin: 30px 0;
+}
+.interest ul li .icon
+{
+    display: inline-block;
+    width: 30px;
+    font-size: 15px;
+    color: #fff;
+}
+.interest ul li .text 
+{
+    color: #000;
+    font-size: 18px;
+    font-family: 'Nunito Bold',sans-serif;
+}
+.container .right_side
+{
+    position: relative;
+    background: #1E1F20;
+}
+.right_side .propic
+{
+    position: relative;
+    width: 100px;
+    height: auto;
+}
+.right_side .propic img
+{
+    position: absolute;
+    width: 180px;
+    height: auto;
+}
+.right_side .vl
+{
+    position: absolute;
+    border-left: 3px solid #1E1F20;
+    height: 240px;
+    top: 0;
+    left: 250px;
+}
+.right_side .propic h4
+{
+    position: relative;
+    color: #1E1F20;
+    font-size: 22px;
+    font-family: 'Nunito',sans-serif;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    transform: rotate(-90deg);
+    left: 180px;
+    top: 95px;
+}
+.contact
+{
+    padding-top: 60px;
+    padding-left: 160px;
+}
+.contact ul
+{
+    position: relative;
+    left: 80px;
+}
+.contact ul li
+{
+    position: relative;
+    list-style: none;
+    margin: 15px 0;
+}
+.contact ul li .icon
+{
+    display: inline-block;
+    width: 30px;
+    font-size: 12px;
+    color: #976960;
+}
+.contact ul li .text 
+{
+    color: #976960;
+    font-size: 15px;
+    font-family: 'Nunito',sans-serif;
+}
+.right_side .profile .title, .experience .title, .skill .title
+{
+    color: #fff;
+    font-family: 'Nunito',sans-serif;
+    letter-spacing: 6px;
+    padding-top: 20px;
+    padding-left: 40px;
+    font-size: 22px;
+    text-transform: uppercase;
+}
+.right_side .profile hr, .experience hr, .skill hr
+{
+    display: block;
+    width: 32%;
+    margin-top: 1em;
+    margin-left: 0;
+    border-color: #fff;
+    background-color: #fff;
+}
+.right_side .profile p
+{
+    color: #976960;
+    text-align: justify;
+    font-size: 17px;
+    line-height: 25px;
+    letter-spacing: 0.01rem;
+    padding-bottom: 5px;
+    margin: 15px 50px 0 40px;
+}
+.experience .title, .skill .title
+{
+    padding-top: 35px;
+}
+.experience .undergrad, .experience .college, .experience .school
+{
+    font-family: 'Mohave',sans-serif;
+    font-size: 19px;
+    color: #af7b71;
+    padding-top: 20px;
+    padding-left: 40px;
+    letter-spacing: 0.03rem;
+    text-transform: uppercase;
+}
+.experience .uni, .experience .hcc, .experience .hcs
+{
+    color: #976960;
+    text-align: justify;
+    font-size: 17px;
+    line-height: 25px;
+    padding-bottom: 5px;
+    margin: 10px 50px 0 40px;
+}
+.skill .title
+{
+    padding-top: 30px;
+}
+.skill hr
+{
+    margin-bottom: 30px;
+}
+
+.skill .box
+{
+    margin: 15px 0 22px 40px;
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    justify-content: center;
+    align-items: center;
+}
+.skill .box h4
+{
+    text-transform: uppercase;
+    color: #af7b71;
+    font-weight: 500;
+}
+.skill .box .percent
+{
+    position: relative;
+    width: 75%;
+    height: 7px;
+    background: #272829;
+}
+.skill .box .percent div
+{
+    position: relative;
+    background: #6F4A43;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
