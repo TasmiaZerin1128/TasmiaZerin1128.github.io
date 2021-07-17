@@ -261,13 +261,18 @@ section .title::after{
     display: inline-block;
     background: #f4a261;
     color: black;
-    font-size: 25px;
+    font-size: 15px;
     font-weight: 500;
     padding: 10px 20px;
     margin-top: 20px;
     border-radius: 6px;
     border: 2px solid #f4a261;
     transition: all 0.3s ease;
+}
+.about .about-content .right .view
+{
+    margin-left: 20px;
+    padding-left: 20px;
 }
 .about .about-content .right a:hover{
     color: #f4a261;
