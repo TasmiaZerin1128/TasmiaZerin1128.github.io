@@ -262,24 +262,20 @@ body{
 
 .skill .box
 {
-    margin: 15px 0 22px 40px;
-    position: relative;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 150px 1fr;
+    margin: 15px 20px 40px 40px;
     justify-content: center;
     align-items: center;
 }
-.skill .box h4
+.skill .box h5
 {
     text-transform: uppercase;
     color: #af7b71;
-    font-weight: 500;
+    font-weight: 300;
+    margin-bottom: 8px;
 }
 .skill .box .percent
 {
     position: relative;
-    width: 75%;
     height: 7px;
     background: #272829;
 }

@@ -207,11 +207,12 @@ section .title::after{
     display: inline-block;
     background: #f4a261;
     color: black;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
-    padding: 12px 36px;
+    padding: 8px 20px;
     margin-top: 20px;
     border-radius: 6px;
+    height: 50px;
     border: 2px solid #f4a261;
     transition: all 0.3s ease;
 }
@@ -421,12 +422,12 @@ section .title::after{
 /* teams section styling */
 .teams .title::before{
     background: #fff;
-    bottom: -2240px;
+    bottom: -2300px;
 }
 .teams .title::after{
     background: #111;
-    content: " Who with Me ";
-    bottom: -2255px;
+    content: " What I Made ";
+    bottom: -2320px;
     color: #f4a261;
 }
 .teams .carousel .card{
@@ -450,8 +451,8 @@ section .title::after{
     transform: scale(1.05);
 }
 .teams .carousel .card .text{
-    font-family: 'Great Vibes';
-    font-size: 35px;
+    font-family: 'Ubuntu';
+    font-size: 25px;
     color: #f4a261;
     font-weight: 500;
     margin: 10px 0 7px 0;
@@ -461,9 +462,9 @@ section .title::after{
 }
 .teams .carousel .card img{
     height: 150px;
-    width: 150px;
+    width: 250px;
     object-fit: cover;
-    border-radius: 15%;
+    border-radius: 10px;
     border: 5px solid #f4a261;
 }
 .teams .carousel .card:hover img{
@@ -490,15 +491,48 @@ section .title::after{
     background: #f4a261!important;
 }
 
+.git{
+  background-color: #000;
+  border-radius: 8px;
+  border: 1px solid #f4a261;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin-top: 15px;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.git:hover,
+.git:focus {
+    color: #f4a261;
+  background-color: rgb(255, 255, 255);
+}
+
 /* gallery section styling */
 .gallery .title::before{
     background: #111;
-    bottom: -2940px;
+    bottom: -3050px;
 }
 .gallery .title::after{
     background: #fff;
     content: " What I Do ";
-    bottom: -2955px;
+    bottom: -3070px;
     color: #f4a261;
 }
 .gallery .carousel-2 .card{
