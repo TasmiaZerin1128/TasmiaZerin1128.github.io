@@ -21,7 +21,7 @@ export default function CVPage() {
               </h1>
             </div>
             <h5>
-              Student at <span>IIT, DU</span>
+              Software Engineer @ <span>Cefalo Bangladesh Ltd.</span>
             </h5>
           </div>
 
@@ -31,8 +31,13 @@ export default function CVPage() {
             <hr className={styles.hr} />
             <div>
               <h5 className={styles.eduInstitution}>IIT, University of Dhaka</h5>
-              <h5 className={styles.eduDegree}>Software Engineering</h5>
-              <h6 className={styles.eduYear}>2019 - present</h6>
+              <h5 className={styles.eduDegree}>BSSE | CGPA: 3.88</h5>
+              <h6 className={styles.eduYear}>2019 - 2023</h6>
+            </div>
+            <div>
+              <h5 className={styles.eduInstitution}>IIT, University of Dhaka</h5>
+              <h5 className={styles.eduDegree}>MSSE | CGPA: 4.00</h5>
+              <h6 className={styles.eduYear}>2024 - 2025</h6>
             </div>
             <div>
               <h5 className={styles.eduInstitution}>Holy Cross College</h5>
@@ -109,9 +114,8 @@ export default function CVPage() {
             <h3 className={styles.sectionTitleLight}>Profile</h3>
             <hr className={styles.hrLight} />
             <p className={styles.profileDesc}>
-              Hi there! I am Tasmia, currently studying undergraduate in IIT, DU.
-              Hope to be a front-end developer and design UI/UX of various
-              applications. Wish me luck!
+              Hi there! I am Tasmia, working as a software engineer in Cefalo Bangladesh Ltd.
+              Hope to build many kinds of interesting things (of course now with AI). Wish me luck!
             </p>
           </div>
 
