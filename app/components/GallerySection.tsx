@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const galleryItems = [
   { image: "/images/img1.jpg", title: "Cinderella", type: "text" },
@@ -22,6 +23,13 @@ export default function GallerySection() {
       <div className="max-width">
         <h2 className="title">My Gallery</h2>
         <div className="gallery-grid">
+          <Link href="/art" className="card art-link-card">
+            <div className="art-link-inner">
+              <span className="art-link-eyebrow">— Featured —</span>
+              <span className="art-link-title">THE ART OF TASMIA</span>
+              <span className="art-link-arrow">EXPLORE GALLERY →</span>
+            </div>
+          </Link>
           {galleryItems.map((item) => (
             <div className="card" key={item.image}>
               <div className="box">

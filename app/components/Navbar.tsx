@@ -54,8 +54,8 @@ export default function Navbar() {
             </a>
           </li>
           <li>
-            <a href="#gallery" onClick={handleMenuClick}>
-              Gallery
+            <a href="/art" onClick={handleMenuClick}>
+              Art Gallery
             </a>
           </li>
         </ul>
