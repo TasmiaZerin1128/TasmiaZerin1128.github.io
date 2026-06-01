@@ -1,0 +1,675 @@
+/* Album viewer — frameless "gallery wall" + scroll-driven story.
+   Warm museum aesthetic: ink #f4ecd8, muted #b8a892, accent #f4a261.
+   Backdrop = the dark gallery-room photo; canvases are borderless with
+   realistic drop shadows. */
+
+.container {
+  position: relative;
+  z-index: 10;
+  height: 100vh;
+  margin: 0 auto;
+  padding: clamp(4.5rem, 8vh, 6rem) 0 1.25rem; /* clear the fixed navbar */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* wall view fits one viewport — no page scroll / top gap */
+  isolation: isolate;
+}
+
+/* the detail story is a fixed overlay; let the container grow naturally */
+.containerDetail {
+  z-index: 9999;
+  height: auto;
+  min-height: 100vh;
+  overflow: visible;
+}
+
+/* fixed gallery-room backdrop.
+   NOTE: the element is already position:fixed, so we must NOT also use
+   `background-attachment: fixed` — that forces a full-viewport repaint on every
+   scroll frame and was the main cause of the lag. */
+.container::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(16, 9, 7, 0.55) 0%,
+      rgba(16, 9, 7, 0.3) 40%,
+      rgba(16, 9, 7, 0.55) 100%
+    ),
+    url("/images/gallery-room-bg.png") center / cover no-repeat;
+}
+
+.backBtn {
+  position: fixed;
+  bottom: clamp(1.5rem, 4vh, 2.5rem);
+  left: clamp(1.5rem, 4vw, 3rem);
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  background: rgba(20, 17, 26, 0.55);
+  border: 1px solid rgba(244, 162, 97, 0.3);
+  border-radius: 999px;
+  color: #f4ecd8;
+  font-family: "Cinzel", serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+.backBtn:hover {
+  background: rgba(244, 162, 97, 0.2);
+  border-color: #f4a261;
+  color: #f4a261;
+}
+
+/* album title floats in the bottom-left, just above the back button */
+.header {
+  position: fixed;
+  bottom: clamp(4.5rem, 9vh, 6rem);
+  left: clamp(1.5rem, 4vw, 3rem);
+  z-index: 50;
+  text-align: left;
+  pointer-events: none;
+}
+.title {
+  font-family: "Cinzel", serif;
+  font-weight: 500;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  letter-spacing: 0.12em;
+  color: #f4ecd8;
+  margin: 0;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
+}
+/* counter stays centered at the top */
+.counterTop {
+  text-align: center;
+  margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+  font-family: "Cinzel", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  color: #f4a261;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+}
+
+.empty,
+.emptyInline {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  padding: 2rem;
+  color: #b8a892;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.2rem;
+}
+.empty .backBtn {
+  margin-bottom: 1.5rem;
+}
+
+/* ---- gallery loading spinner (covers viewport until images decode) ---- */
+.galleryLoading {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+}
+.spinner {
+  width: 46px;
+  height: 46px;
+  border: 3px solid rgba(244, 162, 97, 0.25);
+  border-top-color: #f4a261;
+  border-radius: 50%;
+  animation: albumSpin 0.8s linear infinite;
+}
+@keyframes albumSpin {
+  to { transform: rotate(360deg); }
+}
+.loadingText {
+  font-family: "Cinzel", serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #b8a892;
+}
+
+/* pendant gallery light above the wall */
+.pendant {
+  position: relative;
+  width: min(360px, 50vw);
+  height: 4px;
+  margin: 0 auto 1rem;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #fff6e6 20%,
+    #fff 50%,
+    #fff6e6 80%,
+    transparent
+  );
+  box-shadow: 0 0 24px 6px rgba(255, 240, 210, 0.5),
+    0 30px 80px 30px rgba(255, 235, 200, 0.12);
+}
+.pendant::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -28px;
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 245, 225, 0.4);
+  transform: translateX(-50%);
+}
+
+/* pendant pinned to the top of the detail story while scrolling */
+.pendantStory {
+  position: sticky;
+  top: clamp(4.5rem, 9vh, 6rem);
+  z-index: 3;
+  margin-top: clamp(4.5rem, 9vh, 6rem);
+  pointer-events: none;
+}
+
+/* scroll-down hint, bottom-right of the opened image */
+.scrollDown {
+  position: fixed;
+  bottom: clamp(1.5rem, 4vh, 2.5rem);
+  right: clamp(1.5rem, 4vw, 3rem);
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.6rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #f4ecd8;
+  transition: color 0.3s ease;
+}
+.scrollDown:hover {
+  color: #f4a261;
+}
+.scrollDownLabel {
+  font-family: "Cinzel", serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+.scrollDownArrow {
+  font-size: 1.2rem;
+  line-height: 1;
+  animation: scrollBob 1.6s ease-in-out infinite;
+}
+@keyframes scrollBob {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+
+/* ---- wall: horizontal row of borderless canvases ---- */
+.wall {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* horizontal motion is driven by a rAF lerp in JS; keep native behavior auto */
+  scroll-behavior: auto;
+  min-height: 0;
+}
+.wall::-webkit-scrollbar {
+  display: none;
+}
+
+.wallTrack {
+  display: flex;
+  align-items: center;
+  gap: clamp(3rem, 8vw, 8rem);
+  /* 50vw side padding lets the first and last canvas rest dead-center */
+  padding: 0 50vw;
+  height: 100%;
+  width: max-content;
+}
+
+.canvas {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+  height: clamp(300px, 56vh, 620px);
+  /* reserve width so lazy (not-yet-loaded) tiles don't collapse the track,
+     keeping the scroll/centering math stable until the image decodes */
+  min-width: clamp(220px, 30vw, 440px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+.canvasActive {
+  transform: scale(1.04);
+}
+.canvas:hover {
+  transform: scale(1.06);
+}
+
+/* frame hugs the image so the hover border + corner title sit on the image,
+   not on the wider (min-width padded) tile */
+.canvasFrame {
+  position: relative;
+  display: inline-flex;
+  height: 90%;
+  width: auto;
+  transition: box-shadow 0.3s ease;
+}
+.canvas:hover .canvasFrame {
+  box-shadow: 0 0 0 3px #f4a261;
+}
+
+.canvasImg {
+  display: block;
+  /* fill the canvas height (gallery-wall style); width follows aspect ratio so
+     the frame wraps the image tightly — hover border + corner title stay on the
+     image's real edges and it never overflows/crops */
+  height: 100%;
+  width: auto;
+  min-height: 0;
+  min-width: 0;
+  object-fit: contain;
+  /* borderless — realistic hung-canvas shadow */
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6),
+    0 12px 24px rgba(0, 0, 0, 0.45);
+  user-select: none;
+  /* crossfade from the shimmer placeholder when the image decodes.
+     NOTE: no `will-change` here — keeping a GPU layer alive for every image is
+     itself a source of lag in large albums; the plain opacity transition is
+     cheap enough. */
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.canvasImgLoaded {
+  opacity: 1;
+}
+
+.imagePlaceholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(244, 162, 97, 0.12) 0%,
+    rgba(244, 162, 97, 0.25) 50%,
+    rgba(244, 162, 97, 0.12) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* hover title — plaque on the bottom-left corner of the border */
+.canvasTitle {
+  position: absolute;
+  left: -3px;
+  bottom: -3px;
+  padding: 0.3rem 0.7rem;
+  background: #f4a261;
+  color: #1a0d09;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+.canvas:hover .canvasTitle {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- filmstrip ---- */
+.filmstrip {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.75rem 0.25rem 0.5rem;
+  margin-top: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(244, 162, 97, 0.4) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.filmstrip::-webkit-scrollbar { height: 6px; }
+.filmstrip::-webkit-scrollbar-thumb {
+  background: rgba(244, 162, 97, 0.4);
+  border-radius: 3px;
+}
+.filmstrip::-webkit-scrollbar-track { background: transparent; }
+
+.filmstripInner {
+  display: flex;
+  gap: 0.6rem;
+  width: max-content;
+  margin: 0 auto;
+  padding: 0 50%;
+}
+.thumb {
+  appearance: none;
+  flex-shrink: 0;
+  width: clamp(48px, 6vw, 72px);
+  height: clamp(48px, 6vw, 72px);
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(20, 17, 26, 0.6);
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+.thumb:hover { opacity: 0.85; }
+.thumbActive {
+  opacity: 1;
+  border-color: #f4a261;
+  transform: translateY(-4px) scale(1.06);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+}
+
+/* ================= DETAIL STORY (scroll-driven) ================= */
+.story {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  animation: storyFade 0.35s ease;
+}
+/* backdrop on a fixed pseudo-element so scrolling the story never repaints it
+   (avoids the `background-attachment: fixed` repaint jank) */
+.story::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(16, 9, 7, 0.55) 0%,
+      rgba(16, 9, 7, 0.3) 40%,
+      rgba(16, 9, 7, 0.55) 100%
+    ),
+    url("/images/gallery-room-bg.png") center / cover no-repeat;
+}
+@keyframes storyFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.closeBtn {
+  position: fixed;
+  top: clamp(6rem, 12vh, 8rem); /* sit inside the view, clear of the navbar */
+  right: clamp(1.5rem, 4vw, 3rem);
+  z-index: 10000; /* above navbar (100) and the story */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.1rem;
+  background: rgba(20, 17, 26, 0.55);
+  border: 1px solid rgba(244, 162, 97, 0.35);
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  color: #f4ecd8;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+.closeBtn::before {
+  content: "✕";
+  font-style: normal;
+  font-size: 0.9em;
+}
+.closeBtn:hover {
+  color: #f4a261;
+  border-color: #f4a261;
+  background: rgba(244, 162, 97, 0.15);
+}
+
+/* scene 1 occupies a tall scroll region; the stage is sticky */
+.stageHolder {
+  height: 170vh;
+  position: relative;
+}
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(4.5rem, 9vh, 6.5rem) 1rem clamp(1.5rem, 4vh, 3rem);
+}
+
+.paintingWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 92vw;
+  will-change: transform, opacity;
+}
+.painting {
+  max-height: 78vh;
+  max-width: 80vw;
+  width: auto;
+  object-fit: contain;
+  /* borderless with strong hung-canvas shadow */
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.7),
+    0 16px 30px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+
+/* big overlay title in the blank space, overlapping the image top */
+.bigOverlay {
+  position: absolute;
+  top: clamp(2rem, 1vh, 5rem);
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+  will-change: opacity;
+}
+.overlayLabel {
+  font-family: "Cinzel", serif;
+  font-size: clamp(1rem, 1.6vw, 1.4rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f4ecd8;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
+}
+.overlaySub {
+  margin-top: 0.5rem;
+  max-width: min(560px, 84vw);
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(0.78rem, 1vw, 0.95rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #cdbca6;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+}
+.bigTitle {
+  margin: clamp(-0.5rem, -1vh, -1rem) 0 0;
+  font-family: "Comforter Brush", "Great Vibes", cursive;
+  font-weight: 400;
+  font-size: clamp(4rem, 12vw, 11rem);
+  line-height: 1;
+  color: #f4ecd8;
+  text-shadow: 0 6px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* final text: title + description directly below the magnifier */
+.finalText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.finalTitle {
+  font-family: "Comforter Brush", "Great Vibes", cursive;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.05;
+  color: #f4ecd8;
+  margin: 0;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.7);
+}
+.finalDesc {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.6;
+  color: #e7d8c2;
+  margin: 0;
+  text-wrap: pretty;
+}
+.finalMeta {
+  font-family: "Cinzel", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #f4a261;
+  margin-top: 0.3rem;
+}
+
+/* scene 3: zoom into detail with the cursor loupe */
+.descScene {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(4.5rem, 9vh, 6.5rem) clamp(1.5rem, 5vw, 4rem) 3rem;
+}
+.loupeHint {
+  position: absolute;
+  top: clamp(4.5rem, 9vh, 6.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Cinzel", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #f4a261;
+}
+.detailImageWrap {
+  flex: 1 1 60%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: crosshair;
+}
+.detailImage {
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  object-fit: contain;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+  user-select: none;
+}
+/* right-side column: loupe with the text directly below it */
+.detailSide {
+  flex: 0 0 clamp(220px, 26vw, 320px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+}
+.lens {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(244, 162, 97, 0.5);
+  border-radius: 3px;
+  background-color: #14111a;
+  background-repeat: no-repeat;
+  background-size: 450%; /* stronger zoom so the loupe clearly magnifies */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 900px) {
+  .canvasImg { max-width: 78vw; }
+  .descScene {
+    flex-direction: column;
+  }
+  .detailSide {
+    flex: none;
+    width: 100%;
+    max-width: 520px;
+    align-items: center;
+    text-align: center;
+  }
+  .finalText {
+    align-items: center;
+    text-align: center;
+  }
+  .lens { display: none; }
+  .detailImage { max-height: 64vh; }
+}
+
+@media (hover: none) {
+  .lens { display: none; }
+  .detailImageWrap { cursor: default; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .canvas,
+  .thumb,
+  .wall {
+    transition: none;
+    scroll-behavior: auto;
+  }
+  .story,
+  .imagePlaceholder {
+    animation: none;
+  }
+  /* no crossfade — show images as soon as they decode */
+  .canvasImg {
+    opacity: 1;
+    transition: none;
+  }
+}

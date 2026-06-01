@@ -1,0 +1,214 @@
+/* Album cards — ported 1:1 from the given Albums.html design (overlay title on
+   a dark scrim, artistic zoom/lift hover) with the art-home theme swapped in:
+   amber #f4a261 accent, cream #f4ecd8 ink, frame #2c2735, panel #14111a,
+   Cinzel for labels, Cormorant Garamond for titles/prose. */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: clamp(1.1rem, 2.2vw, 1.9rem);
+  padding-bottom: 6rem;
+  position: relative;
+  z-index: 10;
+}
+
+.card {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #14111a;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.45);
+  outline: 1px solid rgba(244, 236, 216, 0.06);
+  outline-offset: -1px;
+  opacity: 0;
+  transform: translateY(26px);
+  animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+  cursor: pointer;
+}
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.cover,
+.coverFallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8) saturate(1.02);
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1),
+    filter 0.55s ease;
+}
+.coverFallback {
+  background: linear-gradient(135deg, #2a140d 0%, #14111a 100%);
+}
+
+/* permanent legibility scrim — keeps every title readable */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(8, 6, 12, 0.94) 0%,
+    rgba(8, 6, 12, 0.74) 22%,
+    rgba(8, 6, 12, 0.28) 46%,
+    rgba(8, 6, 12, 0) 68%
+  );
+  transition: opacity 0.55s ease;
+}
+
+.info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: clamp(1.2rem, 2.4vw, 1.7rem);
+  transform: translateY(0);
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  font-family: "Cinzel", serif;
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #f4a261;
+  margin-bottom: 0.7rem;
+}
+.tag::before {
+  content: "";
+  width: 26px;
+  height: 1.5px;
+  background: #f4a261;
+  flex: none;
+  transform-origin: left;
+  transform: scaleX(1);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.albumTitle {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+  line-height: 1.06;
+  color: #fff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+}
+
+.year {
+  display: block;
+  font-family: "Cinzel", serif;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: rgba(244, 236, 216, 0.66);
+  margin-top: 0.6rem;
+}
+
+.view {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  overflow: hidden;
+  font-family: "Cinzel", serif;
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: max-height 0.5s ease, opacity 0.45s ease, margin-top 0.5s ease;
+}
+.arr {
+  transition: transform 0.4s ease;
+}
+
+/* artistic reveal border */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  pointer-events: none;
+  transition: border-color 0.45s ease;
+}
+.card:hover {
+  box-shadow: 0 36px 74px rgba(0, 0, 0, 0.62);
+}
+.card:hover::after {
+  border-color: #f4a261;
+}
+.card:hover .cover {
+  transform: scale(1.09);
+  filter: brightness(0.94) saturate(1.1);
+}
+.card:hover .scrim {
+  opacity: 0.92;
+}
+.card:hover .info {
+  transform: translateY(-6px);
+}
+.card:hover .tag::before {
+  transform: scaleX(1.9);
+}
+.card:hover .view {
+  max-height: 2.4em;
+  opacity: 0.92;
+  margin-top: 1rem;
+}
+.card:hover .view .arr {
+  transform: translateX(5px);
+}
+
+/* ---- load / empty / error states ---- */
+.status {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  min-height: 40vh;
+  padding-bottom: 6rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  color: #b8a892;
+}
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgba(244, 162, 97, 0.25);
+  border-top-color: #f4a261;
+  border-radius: 50%;
+  animation: albums-spin 0.9s linear infinite;
+}
+@keyframes albums-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

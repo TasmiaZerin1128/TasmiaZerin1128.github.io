@@ -1,0 +1,395 @@
+{
+  "Portraits": {
+    "images": {},
+    "title": "Portraits"
+  },
+  "Inktober 2021": {
+    "images": {},
+    "title": "Inktober 2021"
+  },
+  "Thailand Shots": {
+    "images": {
+      "Krabi": {
+        "title": "Krabi",
+        "description": "A beautiful province in southern Thailand",
+        "filename": "Krabi.png"
+      },
+      "atv": {
+        "title": "ATV Ride",
+        "description": "Exploring the rugged terrain of Thailand on an ATV",
+        "filename": "atv.png"
+      },
+      "ao nang": {
+        "title": "Ao Nang",
+        "description": "A popular beach destination in Krabi",
+        "filename": "ao nang.png"
+      },
+      "butterbear": {
+        "title": "Butterbear",
+        "description": "A very buttery welcome to Butterbear world",
+        "filename": "butterbear.png"
+      },
+      "night party": {
+        "title": "Night Party",
+        "description": "Enjoy!",
+        "filename": "night party.png"
+      },
+      "pad thai": {
+        "title": "Pad Thai",
+        "description": "A popular Thai dish made with stir-fried noodles, vegetables, and your choice of protein",
+        "filename": "pad thai.png"
+      },
+      "dive": {
+        "title": "Go for diving?",
+        "description": "Getting ready to go underwater",
+        "filename": "dive.png"
+      },
+      "night market": {
+        "title": "Phuket Night Market",
+        "description": "Experience the vibrant atmosphere of a Thai night market",
+        "filename": "night market.png"
+      },
+      "old town": {
+        "title": "Old Town",
+        "description": "Charming old town of Phuket with its colorful buildings",
+        "filename": "old town.png"
+      },
+      "lets go thai": {
+        "title": "Let\u0027s go to Thailand",
+        "description": "Journey begins!",
+        "filename": "lets go thai.png"
+      },
+      "cat pass": {
+        "title": "Cat Staring",
+        "description": "",
+        "filename": "cat pass.png"
+      },
+      "patong beach": {
+        "title": "Patong Beach",
+        "description": "A lively beach in Phuket",
+        "filename": "patong beach.png"
+      },
+      "andaman sea": {
+        "title": "Andaman Sea",
+        "description": "Feel the waves of the sea?",
+        "filename": "andaman sea.png"
+      },
+      "railay beach": {
+        "title": "Railay Beach",
+        "description": "A stunning beach accessible only by boat with a nice sunset view",
+        "filename": "railay beach.png"
+      },
+      "koh phi phi": {
+        "title": "Koh Phi Phi",
+        "description": "A stunning island known for its vibrant nightlife",
+        "filename": "koh phi phi.png"
+      },
+      "maya bay": {
+        "title": "Maya Bay",
+        "description": "A breathtaking bay surrounded by towering limestone cliffs",
+        "filename": "maya bay.png"
+      },
+      "kayaking": {
+        "title": "Kayaking",
+        "description": "Paddling through the serene waters of Thailand",
+        "filename": "kayaking.png"
+      },
+      "sawadika": {
+        "title": "Sawadika",
+        "description": "A warm greeting in Thai, meaning \u0027hello\u0027 or \u0027welcome\u0027",
+        "filename": "sawadika.png"
+      },
+      "Scuba diving water": {
+        "title": "The world under water",
+        "description": "The crystal-clear waters of Thailand, perfect for scuba diving",
+        "filename": "Scuba diving water.png"
+      },
+      "yummy": {
+        "title": "Yummy Thai Food",
+        "description": "Delicious flavors of Thai Snacks",
+        "filename": "yummy.png"
+      },
+      "bamboo island": {
+        "title": "Bamboo Island",
+        "description": "A small island in the Andaman Sea",
+        "filename": "bamboo island.png"
+      },
+      "mango sticky rice": {
+        "title": "Mango Sticky Rice",
+        "description": "A delicious Thai dessert made with sticky rice and fresh mango",
+        "filename": "mango sticky rice.png"
+      },
+      "monkey beach": {
+        "title": "Monkey Beach",
+        "description": "A beach inhabited by playful monkeys",
+        "filename": "monkey beach.png"
+      }
+    },
+    "title": "Thailand Shots"
+  },
+  "Inktober 2023": {
+    "images": {},
+    "title": "Inktober 2023"
+  },
+  "Nepal Diaries": {
+    "images": {},
+    "title": "Nepal Diaries"
+  },
+  "NZ Shots": {
+    "images": {
+      "snapper": {
+        "title": "Snapper",
+        "description": "A popular fish in New Zealand, often enjoyed as a delicious meal",
+        "filename": "snapper.png"
+      },
+      "llama": {
+        "title": "Llama",
+        "description": "Native animal of New Zealand 🦙",
+        "filename": "llama.png"
+      },
+      "pizza": {
+        "title": "Pizza",
+        "description": "Hand streched yummy pizza! 🍕",
+        "filename": "pizza.png"
+      },
+      "te puia": {
+        "title": "Te Puia",
+        "description": "One of New Zealand\u0027s most magnificent geothermal wonderlands",
+        "filename": "te puia.png"
+      },
+      "pavlova": {
+        "title": "Pavlova",
+        "description": "A delicious dessert named after the ballerina Anna Pavlova",
+        "filename": "pavlova.png"
+      },
+      "okere falls": {
+        "title": "Okere Falls",
+        "description": "A beautiful waterfall in Rotorua",
+        "filename": "okere falls.png"
+      },
+      "sky tower": {
+        "title": "Sky Tower",
+        "description": "The iconic Tower offering panoramic views of Auckland city",
+        "filename": "sky tower.png"
+      },
+      "clouds": {
+        "title": "Clouds",
+        "description": "The ever-changing sky of New Zealand",
+        "filename": "clouds.png"
+      },
+      "coke fanta sprite": {
+        "title": "Coke, Fanta, Sprite",
+        "description": "Start with a refreshment!",
+        "filename": "coke fanta sprite.png"
+      },
+      "kia ora": {
+        "title": "Kia Ora",
+        "description": "A warm welcome from New Zealand",
+        "filename": "kia ora.png"
+      },
+      "lava cave": {
+        "title": "Lava Cave",
+        "description": "A cave in Rangitoto Island formed by volcanic activity",
+        "filename": "lava cave.png"
+      },
+      "auckland": {
+        "title": "Auckland",
+        "description": "The city of sails ⛵",
+        "filename": "auckland.png"
+      },
+      "rotorua": {
+        "title": "Rotorua",
+        "description": "A city known for its geothermal activity and Maori culture",
+        "filename": "rotorua.png"
+      },
+      "rotorua lake": {
+        "title": "Rotorua Lake",
+        "description": "A stunning lake in Rotorua",
+        "filename": "rotorua lake.png"
+      },
+      "conference": {
+        "title": "Conference",
+        "description": "ICSME 2025 in Auckland",
+        "filename": "conference.png"
+      },
+      "tarapunga": {
+        "title": "Tarāpunga (Red-billed gull)",
+        "description": "A native seagull of New Zealand",
+        "filename": "tarapunga.png"
+      }
+    },
+    "title": "New Zealand Shots"
+  },
+  "Inktober 2022": {
+    "images": {},
+    "title": "Inktober 2022"
+  },
+  "Inktober 2024": {
+    "images": {},
+    "title": "Inktober 2024"
+  },
+  "Inktober 2020": {
+    "images": {},
+    "title": "Inktober 2020"
+  },
+  "Inktober 2025": {
+    "images": {
+      "day 9": {
+        "title": "Day 9: Heavy",
+        "description": "It\u0027s not the weight of the bags, but the weight of responsibility",
+        "filename": "day 9.PNG"
+      },
+      "day 2": {
+        "title": "Day 2: Weave",
+        "description": "Jamdani, a fine art weave that was preserved for the Royals",
+        "filename": "day 2.png"
+      },
+      "day 15": {
+        "title": "Day 15: Ragged",
+        "description": "Ragged but still standing!",
+        "filename": "day 15.png"
+      },
+      "day 3": {
+        "title": "Day 3: Crown",
+        "description": "Every mom deserves a crown 👑",
+        "filename": "day 3.png"
+      },
+      "day 16": {
+        "title": "Day 16: Blunder",
+        "description": "😺: দিলাম 🫸🏻",
+        "filename": "day 16.png"
+      },
+      "day 25": {
+        "title": "Day 25: Inferno",
+        "description": "Everyday life of firefighters in Bangladesh",
+        "filename": "day 25.PNG"
+      },
+      "day 27": {
+        "title": "Day 27: Onion",
+        "description": "Sorry 😭",
+        "filename": "day 27.png"
+      },
+      "day 10": {
+        "title": "Day 10: Sweep",
+        "description": "Wipe all the things which are harmful for you",
+        "filename": "day 10.png"
+      },
+      "day 17": {
+        "title": "Day 17: Ornate",
+        "description": "The incredible designs around us",
+        "filename": "day 17.png"
+      },
+      "day 24": {
+        "title": "Day 24: Rowdy",
+        "description": "Couldn\u0027t think of anything better than this 🤫🔫",
+        "filename": "day 24.PNG"
+      },
+      "day 29": {
+        "title": "Day 29: Lesson",
+        "description": "Life lessons we needed before",
+        "filename": "day 29.png"
+      },
+      "day 11": {
+        "title": "Day 11: Sting",
+        "description": "Do the right sting! ~ Stingray",
+        "filename": "day 11.PNG"
+      },
+      "day 22": {
+        "title": "Day 22: Button",
+        "description": "Which one to press? 😥",
+        "filename": "day 22.png"
+      },
+      "day 8": {
+        "title": "Day 8: Reckless",
+        "description": "No caption needed for this one",
+        "filename": "day 8.png"
+      },
+      "day 1": {
+        "title": "Day 1: Mustache",
+        "description": "The yummy mustache",
+        "filename": "day 1.png"
+      },
+      "day 21": {
+        "title": "Day 21: Blast",
+        "description": "I am having a blast 🔥",
+        "filename": "day 21.png"
+      },
+      "day 12": {
+        "title": "Day 12: Shredded",
+        "description": "A shredded (t-shirt) chicken 💪🏻🐔",
+        "filename": "day 12.png"
+      },
+      "day 31": {
+        "title": "Day 31: Award",
+        "description": "Here\u0027s one for surviving almost another year! 🏆",
+        "filename": "day 31.png"
+      },
+      "day 6": {
+        "title": "Day 6: Pierce",
+        "description": "You can wound my heart, but not my soul",
+        "filename": "day 6.png"
+      },
+      "day 7": {
+        "title": "Day 7: Starfish",
+        "description": "Inner mood - like Patrick Star right now",
+        "filename": "day 7.png"
+      },
+      "day 30": {
+        "title": "Day 30: Vacant",
+        "description": "~ Just a classroom, yet it held our world",
+        "filename": "day 30.png"
+      },
+      "day 18": {
+        "title": "Day 18: Deal",
+        "description": "No matter what happens, I\u0027ll always be there for you, okay?",
+        "filename": "day 18.png"
+      },
+      "day 14": {
+        "title": "Day 14: Trunk",
+        "description": "A trunk of flowers for you 🐘🌼",
+        "filename": "day 14.PNG"
+      },
+      "day 26": {
+        "title": "Day 26: Puzzling",
+        "description": "Summary of Student Life 🎓",
+        "filename": "day 26.png"
+      },
+      "day 23": {
+        "title": "Day 23: Firefly",
+        "description": "In childhood, catching fireflies was on a different level ✨",
+        "filename": "day 23.PNG"
+      },
+      "day 19": {
+        "title": "Day 19: Arctic",
+        "description": "Polar bear \u0026 Penguin 🐻‍❄️🐧",
+        "filename": "day 19.png"
+      },
+      "day 28": {
+        "title": "Day 28: Skeletal",
+        "description": "Will be peacefully chilling with friends… one day (hopefully 💀)",
+        "filename": "day 28.PNG"
+      },
+      "day 5": {
+        "title": "Day 5: Deer",
+        "description": "Usual dark streets of BD at night",
+        "filename": "day 5.png"
+      },
+      "day 4": {
+        "title": "Day 4: Murky",
+        "description": "Usual dark streets of BD at night",
+        "filename": "day 4.png"
+      },
+      "day 20": {
+        "title": "Day 20: Rivals",
+        "description": "So which one you prefer?",
+        "filename": "day 20.PNG"
+      },
+      "day 13": {
+        "title": "Day 13: Drink",
+        "description": "Relax, have a morning tea ☕",
+        "filename": "day 13.png"
+      }
+    },
+    "title": "Inktober \u002725"
+  }
+}

@@ -23,13 +23,10 @@ export default function ArtNavbar() {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <a href="#art-gallery">Portfolio</a>
+            <a href="/art#art-gallery">Portfolio</a>
           </li>
           <li>
-            <Link href="/#about">About</Link>
-          </li>
-          <li>
-            <a href="#art-gallery">Albums</a>
+            <Link href="/albums">Albums</Link>
           </li>
         </ul>
       </div>

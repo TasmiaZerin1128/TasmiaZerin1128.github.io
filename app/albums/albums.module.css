@@ -1,0 +1,121 @@
+/* Albums page — ports the given Albums.html design (cinematic watermark header
+   + serial overlay cards) onto the existing art-home theme:
+   warm dark #1a0d09 bg, cream #f4ecd8 ink, amber #f4a261 accent,
+   Cinzel for display/labels, Cormorant Garamond for prose. */
+
+/* Fixed cinematic backdrop — a warm, deep gradient echoing the art home page
+   instead of the prototype's montage image. Sits above .art-page's base color
+   but below content. */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      120% 80% at 50% 0%,
+      rgba(244, 162, 97, 0.1) 0%,
+      rgba(26, 13, 9, 0.4) 38%,
+      rgba(16, 9, 7, 0.92) 100%
+    ),
+    radial-gradient(
+      90% 60% at 80% 100%,
+      rgba(231, 111, 81, 0.08) 0%,
+      transparent 60%
+    );
+}
+
+/* page shell: column layout so the footer sticks to the bottom of the viewport
+   even when content is short (e.g. during the loading spinner) */
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---- page wrap ---- */
+.wrap {
+  position: relative;
+  z-index: 10;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  /* reduced top padding for a tighter layout */
+  padding: clamp(4rem, 8vh, 6rem) clamp(1.5rem, 5vw, 4rem) 0;
+  /* fill the viewport so the footer is pushed to the bottom even while the
+     gallery spinner is showing (no jump-up during load) */
+  flex: 1 0 auto;
+  /* fade only — NO transform: a transform here makes position:fixed children
+     (the full-screen backdrop, floating title, back button) anchor to .wrap
+     instead of the viewport. */
+  animation: pageFade 0.5s ease both;
+}
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---- header with watermark ---- */
+.head {
+  position: relative;
+  text-align: center;
+  padding-bottom: clamp(3rem, 7vh, 5.5rem);
+}
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -58%);
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-size: clamp(4rem, 18vw, 16rem);
+  letter-spacing: 0.04em;
+  color: rgba(244, 236, 216, 0.05);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: -1;
+  animation: watermarkFade 1.2s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+@keyframes watermarkFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -58%) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -58%) scale(1);
+  }
+}
+.kicker {
+  display: block;
+  font-family: "Cinzel", serif;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: #f4a261;
+  margin-bottom: 1.1rem;
+}
+.title {
+  font-family: "Cinzel", serif;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  letter-spacing: 0.14em;
+  text-indent: 0.14em;
+  color: #f4ecd8;
+}
+.lede {
+  margin: 1.3rem auto 0;
+  max-width: 46ch;
+  font-family: "Cormorant Garamond", serif;
+  color: #b8a892;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
