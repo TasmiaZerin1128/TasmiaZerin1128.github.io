@@ -21,7 +21,11 @@ export async function generateStaticParams() {
           (a) => a && typeof a.name === "string"
         )
       : [];
-    return raw.map((a) => ({ album: encodeURIComponent(a.name as string) }));
+    // Return the RAW album name. Next.js URL-encodes the path segment itself
+    // when writing the static file, so pre-encoding here would produce a file
+    // literally named "Inktober%202025.html" (real % sign) that the decoded
+    // request URL "/albums/Inktober%202025" can never match -> 404.
+    return raw.map((a) => ({ album: a.name as string }));
   } catch {
     return [];
   }
