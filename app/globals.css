@@ -1052,7 +1052,6 @@ footer span a:hover {
 .art-cursor-active * {
   cursor: none !important;
 }
-.art-cursor-brush,
 .art-cursor-trail {
   position: fixed;
   top: 0;
@@ -1061,31 +1060,13 @@ footer span a:hover {
   z-index: 99999;
   will-change: transform, opacity;
 }
-.art-cursor-brush {
-  width: 40px;
-  height: 40px;
-  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.45));
-  transition: transform 0.05s linear, filter 0.25s ease;
-}
-.art-cursor-bristle-tip {
-  transition: fill 0.25s ease;
-}
-.art-cursor-brush-hover .art-cursor-bristle-tip {
-  fill: #e9c46a;
-}
-.art-cursor-brush-hover {
-  filter: drop-shadow(0 5px 12px rgba(233, 196, 106, 0.55));
-}
-.art-cursor-brush-click .art-cursor-bristle-tip {
-  fill: #e76f51;
-}
 
 /* paint trail dots — feathered, painterly blobs */
 .art-cursor-trail {
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   background: #e76f51;
-  box-shadow: 0 0 8px rgba(244, 162, 97, 0.35);
+  box-shadow: 0 0 11px rgba(244, 162, 97, 0.45);
   z-index: 99998;
 }
 
@@ -1120,7 +1101,6 @@ footer span a:hover {
 
 /* hide on touch */
 @media (hover: none) {
-  .art-cursor-brush,
   .art-cursor-trail {
     display: none;
   }
@@ -1704,8 +1684,6 @@ footer span a:hover {
   .pf-controls { gap: 1rem; }
   .pf-btn { width: 42px; height: 42px; font-size: 1.3rem; }
   .pf-count { min-width: 70px; font-size: 0.78rem; }
-  .art-cursor-dot,
-  .art-cursor-ring,
   .art-cursor-trail { display: none; }
   .art-page.art-cursor-active,
   .art-page.art-cursor-active * { cursor: auto !important; }

@@ -2,18 +2,35 @@
 
 import { useEffect, useRef } from "react";
 
-const TRAIL_COUNT = 7;
+const TRAIL_COUNT = 18;
 const PAINT_COLORS = [
-  "#f4a261",
-  "#e76f51",
-  "#c9743d",
-  "#d4a574",
-  "#b56a4e",
-  "#e9c46a",
+  "#ff3b6b", // hot pink
+  "#ff8c1a", // vivid orange
+  "#ffd300", // bright yellow
+  "#2ecc40", // green
+  "#1ec8ff", // cyan
+  "#7b5bff", // violet
 ];
 
+// Head dot color: a deep orange so the leading circle reads as the cursor
+// anchor while staying in the warm palette (not a dark blob).
+const HEAD_COLOR = "#e8731a";
+
+// One stable, randomized color per trail position (no serial sweep, no
+// strobing). Picked once per mount; adjacent dots avoid repeating.
+const buildColors = () => {
+  const colors = [HEAD_COLOR];
+  for (let i = 1; i < TRAIL_COUNT; i++) {
+    let c = PAINT_COLORS[Math.floor(Math.random() * PAINT_COLORS.length)];
+    while (c === colors[i - 1]) {
+      c = PAINT_COLORS[Math.floor(Math.random() * PAINT_COLORS.length)];
+    }
+    colors.push(c);
+  }
+  return colors;
+};
+
 export default function CustomCursor() {
-  const brushRef = useRef<SVGSVGElement>(null);
   const trailRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
@@ -26,41 +43,23 @@ export default function CustomCursor() {
     const trail = Array.from({ length: TRAIL_COUNT }, () => ({
       x: -100,
       y: -100,
-      color: PAINT_COLORS[0],
     }));
 
+    // Assign stable colors once (avoids SSR hydration mismatch from random()).
+    const colors = buildColors();
+    colors.forEach((c, i) => {
+      const el = trailRefs.current[i];
+      if (el) el.style.background = c;
+    });
+
     let raf = 0;
-    let frame = 0;
-    let colorIdx = 0;
-    let hovering = false;
 
     const onMove = (e: MouseEvent) => {
       pos.x = e.clientX;
       pos.y = e.clientY;
     };
 
-    const onDown = () => {
-      brushRef.current?.classList.add("art-cursor-brush-click");
-      spawnSplash(pos.x, pos.y);
-    };
-    const onUp = () => {
-      brushRef.current?.classList.remove("art-cursor-brush-click");
-    };
-
-    const interactiveSelector =
-      "a, button, .art-card, .art-hero-btn, .art-nav-menu li";
-    const onOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      const isInteractive =
-        target?.closest && target.closest(interactiveSelector);
-      if (isInteractive && !hovering) {
-        hovering = true;
-        brushRef.current?.classList.add("art-cursor-brush-hover");
-      } else if (!isInteractive && hovering) {
-        hovering = false;
-        brushRef.current?.classList.remove("art-cursor-brush-hover");
-      }
-    };
+    const onDown = () => spawnSplash(pos.x, pos.y);
 
     const spawnSplash = (x: number, y: number) => {
       const splash = document.createElement("span");
@@ -75,8 +74,7 @@ export default function CustomCursor() {
         drop.style.setProperty("--dx", `${Math.cos(angle) * dist}px`);
         drop.style.setProperty("--dy", `${Math.sin(angle) * dist}px`);
         drop.style.setProperty("--sz", `${4 + Math.random() * 5}px`);
-        drop.style.background =
-          PAINT_COLORS[(colorIdx + i) % PAINT_COLORS.length];
+        drop.style.background = PAINT_COLORS[i % PAINT_COLORS.length];
         splash.appendChild(drop);
       }
       document.body.appendChild(splash);
@@ -84,49 +82,37 @@ export default function CustomCursor() {
     };
 
     const animate = () => {
-      frame++;
+      // Lead dot eases toward the cursor; each following dot chases the one
+      // ahead. A gentle follow factor spreads them into a long swatch. When
+      // idle they all converge on the cursor, collapsing into one circle.
+      trail[0].x += (pos.x - trail[0].x) * 0.45;
+      trail[0].y += (pos.y - trail[0].y) * 0.45;
 
-      if (brushRef.current) {
-        brushRef.current.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
-      }
-
-      if (frame % 2 === 0) {
-        for (let i = trail.length - 1; i > 0; i--) {
-          trail[i].x = trail[i - 1].x;
-          trail[i].y = trail[i - 1].y;
-          trail[i].color = trail[i - 1].color;
-        }
-        trail[0].x = pos.x;
-        trail[0].y = pos.y;
-        colorIdx = (colorIdx + 1) % PAINT_COLORS.length;
-        trail[0].color = PAINT_COLORS[colorIdx];
+      for (let i = 1; i < trail.length; i++) {
+        trail[i].x += (trail[i - 1].x - trail[i].x) * 0.32;
+        trail[i].y += (trail[i - 1].y - trail[i].y) * 0.32;
       }
 
       for (let i = 0; i < trail.length; i++) {
         const el = trailRefs.current[i];
         if (!el) continue;
         const t = trail[i];
-        const opacity = (1 - i / trail.length) * 0.85;
-        const scale = 1.1 - i / (trail.length * 1.3);
+        const opacity = 0.9 - (i / trail.length) * 0.35;
+        const scale = 1.1 - (i / trail.length) * 0.55;
         el.style.transform = `translate3d(${t.x}px, ${t.y}px, 0) translate(-50%, -50%) scale(${scale})`;
         el.style.opacity = `${opacity}`;
-        el.style.background = t.color;
       }
 
       raf = requestAnimationFrame(animate);
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("mouseover", onOver, { passive: true });
     window.addEventListener("mousedown", onDown);
-    window.addEventListener("mouseup", onUp);
     raf = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseover", onOver);
       window.removeEventListener("mousedown", onDown);
-      window.removeEventListener("mouseup", onUp);
       cancelAnimationFrame(raf);
       document.body.classList.remove("art-cursor-active");
     };
@@ -134,38 +120,6 @@ export default function CustomCursor() {
 
   return (
     <>
-      <svg
-        ref={brushRef}
-        className="art-cursor-brush"
-        width="40"
-        height="40"
-        viewBox="0 0 24 24"
-        aria-hidden
-      >
-        {/* Handle — brown */}
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          fill="#5a3a1f"
-          d="M20.599 1.5c-.376 0-.743.111-1.055.32l-5.08 3.385a18.747 18.747 0 0 0-3.471 2.987 10.04 10.04 0 0 1 4.815 4.815 18.748 18.748 0 0 0 2.987-3.472l3.386-5.079A1.902 1.902 0 0 0 20.599 1.5Z"
-        />
-        {/* Brush stroke / tip swoosh */}
-        <path
-          className="art-cursor-bristle-middle-tip"
-          fillRule="evenodd"
-          clipRule="evenodd"
-          fill="#704019"
-          d="M12.299 15.525a18.76 18.76 0 0 0 1.896-1.207 8.026 8.026 0 0 0-4.513-4.513A18.75 18.75 0 0 0 8.475 11.7l-.278.5a5.26 5.26 0 0 1 3.601 3.602l.502-.278Z"
-        />
-        {/* Paint droplet */}
-        <path
-          className="art-cursor-bristle-tip"
-          fillRule="evenodd"
-          clipRule="evenodd"
-          fill="#C44D71"
-          d="M6.75 13.5A3.75 3.75 0 0 0 3 17.25a1.5 1.5 0 0 1-1.601 1.497.75.75 0 0 0-.7 1.123 5.25 5.25 0 0 0 9.8-2.62 3.75 3.75 0 0 0-3.75-3.75Z"
-        />
-      </svg>
       {Array.from({ length: TRAIL_COUNT }).map((_, i) => (
         <div
           key={i}
