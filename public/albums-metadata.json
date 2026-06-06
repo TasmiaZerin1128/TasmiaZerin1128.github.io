@@ -257,7 +257,60 @@
     "title": "Inktober 2023"
   },
   "Nepal Diaries": {
-    "images": {},
+    "images": {
+      "buddha": {
+        "title": "Boudhanath Stupa",
+        "description": "One of the largest spherical stupas in Nepal"
+      },
+      "bye_nepal": {
+        "title": "Bye Nepal",
+        "description": "Leaving Nepal with a heart full of memories"
+      },
+      "chitwan": {
+        "title": "Chitwan National Park",
+        "description": "A home to rhinos, tigers, and elephants"
+      },
+      "devis fall": {
+        "title": "Devi's Fall",
+        "description": "A beautiful waterfall in Pokhara"
+      },
+      "disneyland": {
+        "title": "Disneyland Pokhara",
+        "description": "The magical world full of rides in Nepal"
+      },
+      "doggo": {
+        "title": "Have a look!",
+        "description": "A cute doggo waiting at the reception with his menu"
+      },
+      "elephant": {
+        "title": "Hey there!",
+        "description": "What are you looking at? 🐘"
+      },
+      "fewa": {
+        "title": "Fewa Lake",
+        "description": "A serene lake in Pokhara with a view of the Annapurna mountain range"
+      },
+      "fishtail": {
+        "title": "Fishtail (Machapuchare)",
+        "description": "A majestic mountain in the Annapurna range, known for its distinctive shape"
+      },
+      "momo": {
+        "title": "Nepali Momos",
+        "description": "The popular dish of Nepal"
+      },
+      "monkey": {
+        "title": "Hey there, hooman!",
+        "description": "The constants of Nepal"
+      },
+      "monokamona": {
+        "title": "Monokamona Temple",
+        "description": "A temple visited through Monokamona cable car"
+      },
+      "paragliding": {
+        "title": "Paragliding in Pokhara",
+        "description": "A breathtaking view from 1500 meters above the ground"
+      }
+    },
     "title": "Nepal Diaries"
   },
   "NZ Shots": {
@@ -475,7 +528,132 @@
     "title": "Inktober 2022"
   },
   "Inktober 2024": {
-    "images": {},
+    "images": {
+      "day 1": {
+        "title": "Backpack",
+        "description": "Back then, new class meant new bag 🎒"
+      },
+      "day 2": {
+        "title":"Discover",
+        "description": "Finding new topics on the night before exam\n- Just university days"
+      },
+      "day 3": {
+        "title": "Boot",
+        "description": "The Tyrant Boot!\n\"The limits of tyrants are prescribed by the endurance of those whom they oppress\" ~ Frederick Douglas"
+      },
+      "day 4": {
+        "title": "Exotic",
+        "description": "Who's in for steamed dumplings aka momos?"
+      },
+      "day 5": {
+        "title": "Binoculars",
+        "description": "If we could also....see the feelings through the binoculars"
+      },
+      "day 6": {
+        "title": "Trek",
+        "description": "\"Main udna chahta hu, daudna chahta hu. Girna bhi chahta hu. Bas, rukna nahi chahta.\""
+      },
+      "day 7": {
+        "title": "Passport",
+        "description": "The first \"desh er baire\" group tour hits different ✈️"
+      },
+      "day 8": {
+        "title": "Hike",
+        "description": "Hiking to the top while avoiding all negativities"
+      },
+      "day 9": {
+        "title": "Sun",
+        "description": "Glucon-D where 🥵"
+      },
+      "day 10": {
+        "title": "Nomadic",
+        "description": "Travelling around the world on flying bison"
+      },
+      "day 11": {
+        "title": "Snacks",
+        "description": "Cola Potato Chips ~ Deshi version"
+      },
+      "day 12": {
+        "title": "Remote",
+        "description": "Remote Control for my life ~"
+      },
+      "day 13": {
+        "title": "Horizon",
+        "description": "You cannot close your eyes to new horizons 🍂"
+      },
+      "day 14": {
+        "title": "Roam",
+        "description": "Roaming the streets freely? Quite impossible"
+      },
+      "day 15": {
+        "title": "Guidebook",
+        "description": "The Mighty Guidebook Days"
+      },
+      "day 16": {
+        "title": "Grungy",
+        "description": "The unsung superheroes of Bangladesh"
+      },
+      "day 17": {
+        "title": "Journal",
+        "description": "The July '24 Journal"
+      },
+      "day 18": {
+        "title": "Drive",
+        "description": "Can you drive safely? It's not a game, it's real"
+      },
+      "day 19": {
+        "title": "Ridge",
+        "description": "The mountain vibes ~\n\"Fishtail\" giving colossal look as always"
+      },
+      "day 20": {
+        "title": "Uncharted",
+        "description": "Unveiling the Uncharted: A journey through myself"
+      },
+      "day 21": {
+        "title": "Rhinoceros",
+        "description": "Everyday I'm the Rhino"
+    },
+    "day 22": {
+      "title": "Camp",
+      "description": "The \"tent city\" inside Gaza"
+    },
+    "day 23": {
+      "title": "Rust",
+      "description": "মাথায় জং ধরা is real"
+    },
+    "day 24": {
+      "title": "Expedition",
+      "description": "Destination: Admission exam hall\n\nReason: ভার্সিটিতে উঠলে চিল আর চিল 💥"
+    },
+    "day 25": {
+      "title": "Scarecrow",
+      "description": "Do they scare crows?"
+    },
+    "day 26": {
+      "title":  "Camera",
+      "description": "Captured memories that warm the heart"
+    },
+    "day 27": {
+      "title": "Road",
+      "description": "~\nCountry roads, take me home\nLife is old there, older than the trees\n~"
+    },
+    "day 28": {
+      "title": "Jumbo",
+      "description": "রাজার হস্ত করে সমস্ত কাঙালের ধন চুরি"
+    },
+    "day 29": {
+      "title": "Compass",
+      "description": "Listen to the heart, your biggest navigator"
+    },
+    "day 30": {
+      "title": "Violin",
+      "description": "The melody of fall 🎶🍁"
+    },
+    "day 31": {
+      "title": "Landmark",
+      "description": "Looking back, we can see the special turns of our lives in the ups and downs."
+    }
+  },
     "title": "Inktober 2024"
   },
   "Inktober 2020": {

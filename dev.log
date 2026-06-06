@@ -1,0 +1,13 @@
+
+> nextjs-portfolio@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.103:3000
+
+✓ Starting...
+✓ Ready in 756ms
+ GET / 200 in 808ms (compile: 587ms, render: 221ms)
+ GET /albums 200 in 271ms (compile: 213ms, render: 58ms)
+[?25h

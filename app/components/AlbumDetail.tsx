@@ -77,6 +77,9 @@ export default function AlbumDetail({
   // cleanly instead of being yanked back to the old wheel target).
   const scrollTargetRef = useRef<number | null>(null);
   const scrollRafRef = useRef(0);
+  // gates the wheel handler so one physical scroll (which fires many wheel
+  // events, esp. trackpads) advances the wall by exactly one image.
+  const wheelLockRef = useRef(false);
 
   // detail-story refs
   const storyScrollRef = useRef<HTMLDivElement>(null);
@@ -224,27 +227,56 @@ export default function AlbumDetail({
     };
   }, [detailOpen]);
 
-  // ---- wall: fast vertical-wheel -> horizontal scroll (via shared lerp) ----
+  // ---- wall: one scroll = step one image to dead-center ----
+  // Each physical scroll advances by a single image and re-centers it (instead
+  // of free proportional scrolling). The wheel lock collapses the burst of
+  // events a single wheel notch / trackpad swipe emits into one step. At the
+  // first/last image the boundary canvas stays centered (50vw track padding),
+  // and the wheel is released to the page so the user can scroll past the wall.
   useEffect(() => {
     const el = wallRef.current;
-    if (!el || detailOpen) return;
+    if (!el || detailOpen || total === 0) return;
+
+    const nearestIndex = () => {
+      const mid = el.scrollLeft + el.clientWidth / 2;
+      let nearest = 0;
+      let best = Infinity;
+      images.forEach((img, i) => {
+        const c = canvasRefs.current.get(img.key);
+        if (!c) return;
+        const center = c.offsetLeft + c.offsetWidth / 2;
+        const d = Math.abs(center - mid);
+        if (d < best) {
+          best = d;
+          nearest = i;
+        }
+      });
+      return nearest;
+    };
 
     const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      if (maxScroll <= 0) return;
-      const atStart = el.scrollLeft <= 0 && e.deltaY < 0;
-      const atEnd = el.scrollLeft >= maxScroll - 1 && e.deltaY > 0;
-      if (atStart || atEnd) return; // let the page scroll past the wall
+      // honor whichever axis the gesture favors (vertical wheel or trackpad swipe)
+      const delta =
+        Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (delta === 0) return;
+      const dir = delta > 0 ? 1 : -1;
+      const next = nearestIndex() + dir;
+      // at an end: let the page take the scroll so the wall isn't a trap
+      if (next < 0 || next > total - 1) return;
       e.preventDefault();
-      // accumulate onto the in-flight target (or current pos if idle)
-      const base = scrollTargetRef.current ?? el.scrollLeft;
-      animateWallTo(base + e.deltaY * 1.8);
+      if (wheelLockRef.current) return; // one step per scroll gesture
+      wheelLockRef.current = true;
+      goTo(next);
+      const key = images[next]?.key;
+      if (key) centerCanvas(key);
+      window.setTimeout(() => {
+        wheelLockRef.current = false;
+      }, 450);
     };
 
     el.addEventListener("wheel", onWheel, { passive: false });
     return () => el.removeEventListener("wheel", onWheel);
-  }, [detailOpen, animateWallTo]);
+  }, [detailOpen, total, images, goTo, centerCanvas]);
 
   // ---- stop the wall lerp when leaving the wall view / unmounting ----
   useEffect(() => {

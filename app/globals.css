@@ -171,7 +171,10 @@ section .title::after {
   color: white;
   min-height: 500px;
   background-size: cover;
-  background-attachment: fixed;
+  /* NOTE: `background-attachment: fixed` was removed here — it forces a
+     full-viewport repaint on every scroll frame (and is janky/broken on most
+     mobile browsers), which stuttered the home scroll alongside the GSAP
+     section reveals. Default `scroll` is GPU-composited and smooth. */
   font-family: 'Ubuntu', sans-serif;
 }
 .home .max-width {
@@ -961,7 +964,8 @@ footer span a:hover {
     color: white;
     min-height: 400px;
     background-size: cover;
-    background-attachment: fixed;
+    /* mobile: never use fixed attachment — it's the worst scroll-jank
+       offender on touch browsers (many repaint the whole bg per frame). */
   }
   .home .home-content .mySign {
     padding: 5px;
