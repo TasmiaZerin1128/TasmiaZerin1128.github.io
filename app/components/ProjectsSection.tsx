@@ -3,9 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import SectionHeader from "./SectionHeader";
 
 type LinkType = "github" | "play" | "view";
 
@@ -119,9 +117,6 @@ export default function ProjectsSection() {
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const isAnimating = useRef(false);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const decorLineRef = useRef<HTMLDivElement>(null);
-  const tagRef = useRef<HTMLSpanElement>(null);
   const autoTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const isPaused = useRef(false);
 
@@ -201,44 +196,6 @@ export default function ProjectsSection() {
   const handleMouseEnter = () => { isPaused.current = true; };
   const handleMouseLeave = () => { isPaused.current = false; };
 
-  // Scroll-triggered entrance for header
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, {
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-      });
-      gsap.from(decorLineRef.current, {
-        scaleX: 0,
-        duration: 0.6,
-        delay: 0.3,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-      });
-      gsap.from(tagRef.current, {
-        y: 20,
-        opacity: 0,
-        duration: 0.6,
-        delay: 0.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-      });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
-
   const start = page * ITEMS_PER_PAGE;
   const visible = projects.slice(start, start + ITEMS_PER_PAGE);
 
@@ -252,11 +209,7 @@ export default function ProjectsSection() {
   return (
     <section className="teams" id="projects" ref={sectionRef}>
       <div className="max-width">
-        <div className="proj-header">
-          <h2 className="proj-title" ref={titleRef}>My Software Projects</h2>
-          <div className="proj-title-line" ref={decorLineRef}></div>
-          <span className="proj-subtitle" ref={tagRef}>What I Made</span>
-        </div>
+        <SectionHeader title="My Software Projects" subtitle="What I Made" dark />
 
         <div
           className="proj-carousel"

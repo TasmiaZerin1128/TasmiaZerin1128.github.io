@@ -43,6 +43,9 @@ export default function ArtGallery() {
   const frameRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const rot = useRef(0);
   const vel = useRef(0);
+  // when set, the rAF loop eases the ring toward this angle (smooth snap for
+  // the arrows / click-to-front instead of an instant jump)
+  const snap = useRef<number | null>(null);
   const auto = useRef(true);
   const dragging = useRef(false);
   const lastX = useRef(0);
@@ -118,15 +121,34 @@ export default function ArtGallery() {
 
   useEffect(() => {
     if (status !== "ready") return;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduced) auto.current = false;
     let raf = 0;
-    const tick = () => {
+    let last = performance.now();
+    const tick = (now: number) => {
+      // frames elapsed at a 60fps reference, capped so a background-tab pause
+      // doesn't produce one huge step; keeps speed identical on 60/120/144Hz
+      const k = Math.min((now - last) / 16.667, 3);
+      last = now;
       if (!dragging.current && focusedRef.current === null) {
-        if (Math.abs(vel.current) > 0.02) {
-          rot.current += vel.current;
-          vel.current *= 0.94;
+        if (snap.current !== null) {
+          // ease toward the snap target (exponential settle)
+          const diff = snap.current - rot.current;
+          if (reduced || Math.abs(diff) < 0.05) {
+            rot.current = snap.current;
+            snap.current = null;
+          } else {
+            rot.current += diff * (1 - Math.pow(0.9, k));
+          }
+          paint();
+        } else if (Math.abs(vel.current) > 0.02) {
+          rot.current += vel.current * k;
+          vel.current *= Math.pow(0.94, k);
           paint();
         } else if (auto.current) {
-          rot.current -= 0.1;
+          rot.current -= 0.1 * k;
           paint();
         }
       }
@@ -142,6 +164,7 @@ export default function ArtGallery() {
       dragging.current = true;
       auto.current = false;
       vel.current = 0;
+      snap.current = null;
       lastX.current = e.clientX;
     },
     []
@@ -153,7 +176,9 @@ export default function ArtGallery() {
       if (!dragging.current) return;
       const dx = e.clientX - lastX.current;
       lastX.current = e.clientX;
-      vel.current = dx * 0.18;
+      // blend into the release velocity instead of taking the last raw event,
+      // so pointer jitter doesn't make the fling speed feel random
+      vel.current = vel.current * 0.7 + dx * 0.18 * 0.3;
       rot.current += dx * 0.18;
       paint();
     };
@@ -186,15 +211,19 @@ export default function ArtGallery() {
   const spin = (dir: number) => {
     auto.current = false;
     vel.current = 0;
-    rot.current += dir * STEP;
-    paint();
+    // step from the pending target (if mid-tween) so rapid clicks queue up
+    // smoothly, and land exactly on a slot boundary
+    const base = snap.current ?? rot.current;
+    snap.current = Math.round(base / STEP) * STEP + dir * STEP;
   };
 
   const goTo = (i: number) => {
     auto.current = false;
     vel.current = 0;
-    rot.current = -i * STEP;
-    paint();
+    // rotate along the shortest arc to bring frame i to the front
+    const target = -i * STEP;
+    const delta = ((((target - rot.current) % 360) + 540) % 360) - 180;
+    snap.current = rot.current + delta;
   };
 
   return (

@@ -29,7 +29,24 @@ export default function ArtHero() {
     splitChars(bottomRef.current, BOTTOM_LINE);
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      // reduced motion: skip the choreography, just show everything
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(
+          [
+            ".art-poster-titleblock",
+            ".art-poster-char",
+            ".art-poster-figure",
+            ".art-poster-mark",
+            ".art-poster-scroll",
+          ],
+          { opacity: 1, y: 0 }
+        );
+        return;
+      }
+
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.out", force3D: true },
+      });
 
       tl.fromTo(
         ".art-poster-titleblock",
@@ -44,8 +61,8 @@ export default function ArtHero() {
             opacity: 1,
             rotateZ: 0,
             stagger: 0.04,
-            duration: 0.75,
-            ease: "back.out(1.4)",
+            duration: 0.85,
+            ease: "back.out(1.2)",
           },
           0
         )
@@ -56,11 +73,11 @@ export default function ArtHero() {
             y: 0,
             opacity: 1,
             rotateZ: 0,
-            stagger: 0.055,
-            duration: 0.95,
-            ease: "back.out(1.3)",
+            stagger: 0.05,
+            duration: 1.05,
+            ease: "back.out(1.15)",
           },
-          "-=0.55"
+          "-=0.65"
         )
         .fromTo(
           ".art-poster-figure",
