@@ -5,58 +5,19 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SectionHeader from "./SectionHeader";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
   const imageWrapRef = useRef<HTMLDivElement>(null);
   const imageRevealRef = useRef<HTMLDivElement>(null);
   const bioRef = useRef<HTMLParagraphElement>(null);
   const btnsRef = useRef<HTMLDivElement>(null);
-  const decorLineRef = useRef<HTMLDivElement>(null);
-  const tagRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Title slide in
-      gsap.from(titleRef.current, {
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-      });
-
-      // Decorative line grows
-      gsap.from(decorLineRef.current, {
-        scaleX: 0,
-        duration: 0.6,
-        delay: 0.3,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-      });
-
-      // Tag text fades in
-      gsap.from(tagRef.current, {
-        y: 20,
-        opacity: 0,
-        duration: 0.6,
-        delay: 0.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-      });
-
       // Image reveal - overlay slides away to reveal image
       const imgTl = gsap.timeline({
         scrollTrigger: {
@@ -116,16 +77,7 @@ export default function AboutSection() {
   return (
     <section className="about" id="about" ref={sectionRef}>
       <div className="max-width">
-        {/* Section header with decorative elements */}
-        <div className="about-header">
-          <h2 className="about-title" ref={titleRef}>
-            About Me
-          </h2>
-          <div className="about-title-line" ref={decorLineRef}></div>
-          <span className="about-subtitle" ref={tagRef}>
-            Who I Am
-          </span>
-        </div>
+        <SectionHeader title="About Me" subtitle="Who I Am" />
 
         <div className="about-content">
           {/* Image with reveal overlay */}

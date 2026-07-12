@@ -65,6 +65,7 @@ export default function AlbumDetail({
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [inView, setInView] = useState<Set<string>>(new Set());
   const [lensPos, setLensPos] = useState({ x: 0.5, y: 0.5 });
+  const [lensBg, setLensBg] = useState<{ w: number; h: number } | null>(null);
   const [showLens, setShowLens] = useState(false);
 
   const wallRef = useRef<HTMLDivElement>(null);
@@ -140,20 +141,30 @@ export default function AlbumDetail({
 
   // one rAF lerp that owns wall.scrollLeft; both the wheel handler and the
   // centering helpers steer it via scrollTargetRef so nothing fights.
-  const stepWallScroll = useCallback(() => {
+  const scrollLastTs = useRef(0);
+  const stepWallScroll = useCallback((ts: number) => {
     const el = wallRef.current;
     if (!el || scrollTargetRef.current == null) {
       scrollRafRef.current = 0;
+      scrollLastTs.current = 0;
       return;
     }
+    // frames elapsed at a 60fps reference so the glide speed is identical on
+    // high-refresh displays (capped: a background-tab pause isn't one big jump)
+    const k = scrollLastTs.current
+      ? Math.min((ts - scrollLastTs.current) / 16.667, 3)
+      : 1;
+    scrollLastTs.current = ts;
     const diff = scrollTargetRef.current - el.scrollLeft;
     if (Math.abs(diff) < 0.5) {
       el.scrollLeft = scrollTargetRef.current;
       scrollTargetRef.current = null;
       scrollRafRef.current = 0;
+      scrollLastTs.current = 0;
       return;
     }
-    el.scrollLeft += diff * 0.22; // higher = snappier
+    // 0.10/frame = a slower, calmer glide (higher = snappier)
+    el.scrollLeft += diff * (1 - Math.pow(1 - 0.1, k));
     scrollRafRef.current = requestAnimationFrame(stepWallScroll);
   }, []);
 
@@ -177,6 +188,7 @@ export default function AlbumDetail({
       }
       scrollTargetRef.current = clamped;
       if (!scrollRafRef.current) {
+        scrollLastTs.current = 0;
         scrollRafRef.current = requestAnimationFrame(stepWallScroll);
       }
     },
@@ -212,6 +224,7 @@ export default function AlbumDetail({
   const openDetail = useCallback((idx: number) => {
     setActiveIndex(idx);
     setLensPos({ x: 0.5, y: 0.5 });
+    setLensBg(null);
     setDetailOpen(true);
   }, []);
 
@@ -271,7 +284,7 @@ export default function AlbumDetail({
       if (key) centerCanvas(key);
       window.setTimeout(() => {
         wheelLockRef.current = false;
-      }, 450);
+      }, 600); // matches the slower glide so one gesture = one image
     };
 
     el.addEventListener("wheel", onWheel, { passive: false });
@@ -385,29 +398,44 @@ export default function AlbumDetail({
     });
   }, [activeIndex, activeImage, detailOpen]);
 
-  // ---- keyboard ----
+  // ---- keyboard: arrow keys slide the wall one image at a time ----
   useEffect(() => {
+    const slideTo = (idx: number) => {
+      const clamped = Math.max(0, Math.min(total - 1, idx));
+      goTo(clamped);
+      const k = images[clamped]?.key;
+      if (k) centerCanvas(k);
+    };
     const onKey = (e: KeyboardEvent) => {
       if (detailOpen) {
         if (e.key === "Escape") closeDetail();
         return;
       }
       if (e.key === "Escape") onClose();
+      // preventDefault: the wall is a scrollable region, so the browser's own
+      // arrow-key scrolling would fight the animated glide
       if (e.key === "ArrowRight") {
-        goTo(activeIndex + 1);
-        const k = images[activeIndex + 1]?.key;
-        if (k) centerCanvas(k);
+        e.preventDefault();
+        slideTo(activeIndex + 1);
       }
       if (e.key === "ArrowLeft") {
-        goTo(activeIndex - 1);
-        const k = images[activeIndex - 1]?.key;
-        if (k) centerCanvas(k);
+        e.preventDefault();
+        slideTo(activeIndex - 1);
+      }
+      if (e.key === "Home") {
+        e.preventDefault();
+        slideTo(0);
+      }
+      if (e.key === "End") {
+        e.preventDefault();
+        slideTo(total - 1);
       }
       if (e.key === "Enter" && activeImage) openDetail(activeIndex);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [
+    total,
     detailOpen,
     activeIndex,
     activeImage,
@@ -497,11 +525,23 @@ export default function AlbumDetail({
   }, [detailOpen, activeIndex]);
 
 
-  const handleLensMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  // magnification factor of the loupe relative to the displayed image
+  const LENS_ZOOM = 3;
+
+  // measured against the <img> itself (NOT the flex wrapper around it, which
+  // is wider than the centered image — that offset was showing the wrong spot)
+  const handleLensMove = (e: React.MouseEvent<HTMLImageElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setLensPos({
       x: clamp01((e.clientX - rect.left) / rect.width),
       y: clamp01((e.clientY - rect.top) / rect.height),
+    });
+    // size the lens backdrop from the image's real displayed dimensions so the
+    // zoom keeps the artwork's aspect ratio (a bare 450% of the square lens
+    // box stretched non-square art and skewed the position mapping)
+    setLensBg({
+      w: rect.width * LENS_ZOOM,
+      h: rect.height * LENS_ZOOM,
     });
   };
 
@@ -523,9 +563,12 @@ export default function AlbumDetail({
       }`}
     >
       {!detailOpen && total > 0 && (
-        <div className={styles.counterTop}>
+        <div className={styles.counterTop} aria-live="polite">
           {String(activeIndex + 1).padStart(2, "0")} /{" "}
           {String(total).padStart(2, "0")}
+          <span className={styles.keysHint} aria-hidden>
+            &nbsp;&middot;&nbsp;&larr; &rarr; to browse
+          </span>
         </div>
       )}
 
@@ -561,6 +604,9 @@ export default function AlbumDetail({
               galleryReady ? styles.wallReady : ""
             }`}
             ref={wallRef}
+            role="region"
+            aria-label={`${albumTitle} images — use the left and right arrow keys to browse`}
+            tabIndex={0}
           >
             <div className={styles.wallTrack}>
               {images.map((image, idx) => (
@@ -712,19 +758,16 @@ export default function AlbumDetail({
           {/* scene 3: zoom into detail with the cursor loupe */}
           <div className={styles.descScene}>
             <span className={styles.loupeHint}>Hover to zoom in</span>
-            <div
-              className={styles.detailImageWrap}
-              ref={detailImgRef}
-              onMouseEnter={() => setShowLens(true)}
-              onMouseLeave={() => setShowLens(false)}
-              onMouseMove={handleLensMove}
-            >
+            <div className={styles.detailImageWrap} ref={detailImgRef}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={sized(activeImage.url, 1600)}
                 alt={activeImage.data.title}
                 className={styles.detailImage}
                 draggable={false}
+                onMouseEnter={() => setShowLens(true)}
+                onMouseLeave={() => setShowLens(false)}
+                onMouseMove={handleLensMove}
               />
             </div>
 
@@ -733,6 +776,11 @@ export default function AlbumDetail({
                 className={styles.lens}
                 style={{
                   backgroundImage: `url("${sized(activeImage.url, 2000)}")`,
+                  // px size derived from the displayed image keeps the zoom
+                  // aspect-true; "cover" is only the pre-hover fallback
+                  backgroundSize: lensBg
+                    ? `${lensBg.w}px ${lensBg.h}px`
+                    : "cover",
                   backgroundPosition: `${lensPos.x * 100}% ${
                     lensPos.y * 100
                   }%`,

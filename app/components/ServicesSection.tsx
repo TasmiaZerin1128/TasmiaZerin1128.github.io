@@ -1,38 +1,62 @@
+import SectionHeader from "./SectionHeader";
+
+// Drawn from the professional CV — describes the work, never the clients.
+const services = [
+  {
+    icon: "fas fa-database",
+    title: "Data Engineering & ETL",
+    description:
+      "Building data orchestration pipelines that gather, clean, and structure data from many sources into analysis-ready formats — scheduled workflows, timezone-safe loaders, and continuously optimized ETL.",
+    tags: ["Python", "Apache Airflow", "GCP", "Pandas", "Docker"],
+  },
+  {
+    icon: "fas fa-server",
+    title: "Backend & REST APIs",
+    description:
+      "Designing scalable RESTful services with secure authentication — JWT, OAuth 2.0, and role-based access control — backed by both SQL and NoSQL databases.",
+    tags: ["FastAPI", "NodeJS", "ExpressJS", "MySQL", "MongoDB"],
+  },
+  {
+    icon: "fas fa-laptop-code",
+    title: "Frontend Development",
+    description:
+      "Crafting responsive, intuitive interfaces with modern component-driven stacks — from quick Figma prototypes to polished production UIs.",
+    tags: ["ReactJS", "NextJS", "Tailwind CSS", "Figma"],
+  },
+  {
+    icon: "fas fa-robot",
+    title: "AI-Powered Applications",
+    description:
+      "Turning LLM tooling into practical products — RAG pipelines, intelligent task summarizers, and prompt-engineered workflows that cut through information overload.",
+    tags: ["LangChain", "RAG", "Prompt Engineering", "Streamlit"],
+  },
+];
+
 export default function ServicesSection() {
   return (
     <section className="services" id="services">
       <div className="max-width">
-        <h2 className="title">My Services</h2>
-        <div className="serv-content">
-          <div className="card">
-            <div className="box">
-              <i className="fas fa-pen"></i>
-              <div className="text">Front-End Development</div>
-              <p>
-                Minimalistic front-End using AngularJS and figma prototyping
-              </p>
+        <SectionHeader title="What I Do" subtitle="What I Provide" dark />
+        <div className="serv-grid">
+          {services.map((service, i) => (
+            <div className="serv-card" key={service.title}>
+              <span className="serv-card-num" aria-hidden>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="serv-card-icon">
+                <i className={service.icon}></i>
+              </span>
+              <h3 className="serv-card-title">{service.title}</h3>
+              <p className="serv-card-desc">{service.description}</p>
+              <div className="serv-card-tags">
+                {service.tags.map((tag) => (
+                  <span className="serv-tag" key={tag}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="card">
-            <div className="box">
-              <i className="fas fa-code"></i>
-              <div className="text">Apps Design</div>
-              <p>
-                App design combines the user interface (UI) and user experience
-                (UX).
-              </p>
-            </div>
-          </div>
-          <div className="card">
-            <div className="box">
-              <i className="fas fa-paint-brush"></i>
-              <div className="text">Digital Art</div>
-              <p>
-                Digital contents such as, banner, poster, certificate,
-                invitation cards for various institutional events
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

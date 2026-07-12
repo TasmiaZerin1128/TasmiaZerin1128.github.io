@@ -36,6 +36,7 @@ export default function CustomCursor() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(hover: none)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     document.body.classList.add("art-cursor-active");
 
@@ -81,16 +82,24 @@ export default function CustomCursor() {
       setTimeout(() => splash.remove(), 650);
     };
 
-    const animate = () => {
+    let lastT = performance.now();
+    const animate = (now: number) => {
       // Lead dot eases toward the cursor; each following dot chases the one
       // ahead. A gentle follow factor spreads them into a long swatch. When
       // idle they all converge on the cursor, collapsing into one circle.
-      trail[0].x += (pos.x - trail[0].x) * 0.45;
-      trail[0].y += (pos.y - trail[0].y) * 0.45;
+      // Follow factors are normalized by elapsed frames (60fps reference) so
+      // the trail length/feel is the same on high-refresh displays.
+      const k = Math.min((now - lastT) / 16.667, 3);
+      lastT = now;
+      const lead = 1 - Math.pow(1 - 0.45, k);
+      const follow = 1 - Math.pow(1 - 0.32, k);
+
+      trail[0].x += (pos.x - trail[0].x) * lead;
+      trail[0].y += (pos.y - trail[0].y) * lead;
 
       for (let i = 1; i < trail.length; i++) {
-        trail[i].x += (trail[i - 1].x - trail[i].x) * 0.32;
-        trail[i].y += (trail[i - 1].y - trail[i].y) * 0.32;
+        trail[i].x += (trail[i - 1].x - trail[i].x) * follow;
+        trail[i].y += (trail[i - 1].y - trail[i].y) * follow;
       }
 
       for (let i = 0; i < trail.length; i++) {

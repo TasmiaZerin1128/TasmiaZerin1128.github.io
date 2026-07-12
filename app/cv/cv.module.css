@@ -28,7 +28,7 @@
 
 .leftSide {
   position: relative;
-  background: #6F4A43;
+  background: #ab7144;
   padding: 40px;
 }
 
@@ -219,17 +219,17 @@
   display: inline-block;
   width: 30px;
   font-size: 12px;
-  color: #976960;
+  color: #b8a892;
 }
 
 .contactText {
-  color: #976960;
+  color: #b8a892;
   font-size: 15px;
   font-family: 'Nunito', sans-serif;
 }
 
 .profileDesc {
-  color: #976960;
+  color: #b8a892;
   text-align: justify;
   font-size: 17px;
   line-height: 25px;
@@ -241,7 +241,7 @@
 .expTitle {
   font-family: 'Mohave', sans-serif;
   font-size: 19px;
-  color: #af7b71;
+  color: #f4a261;
   padding-top: 20px;
   padding-left: 40px;
   letter-spacing: 0.03rem;
@@ -249,7 +249,7 @@
 }
 
 .expDesc {
-  color: #976960;
+  color: #b8a892;
   text-align: justify;
   font-size: 17px;
   line-height: 25px;
@@ -265,7 +265,7 @@
 
 .skillItem {
   text-transform: uppercase;
-  color: #af7b71;
+  color: #f4a261;
   font-weight: 300;
   margin-bottom: 8px;
 }

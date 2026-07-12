@@ -97,6 +97,16 @@
   color: #f4a261;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
 }
+/* inline keyboard hint next to the counter — pointless on touch, so hidden */
+.keysHint {
+  color: rgba(244, 236, 216, 0.55);
+  letter-spacing: 0.18em;
+}
+@media (hover: none) {
+  .keysHint {
+    display: none;
+  }
+}
 
 .empty,
 .emptyInline {
@@ -235,6 +245,15 @@
 }
 .wall::-webkit-scrollbar {
   display: none;
+}
+/* keyboard users can focus the wall region; show a soft ring only for them */
+.wall:focus {
+  outline: none;
+}
+.wall:focus-visible {
+  outline: 2px solid rgba(244, 162, 97, 0.55);
+  outline-offset: -2px;
+  border-radius: 4px;
 }
 
 .wallTrack {
@@ -599,7 +618,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: crosshair;
 }
 .detailImage {
   max-width: 100%;
@@ -608,6 +626,8 @@
   object-fit: contain;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
   user-select: none;
+  /* crosshair on the image only — the lens tracks the image, not the wrapper */
+  cursor: crosshair;
 }
 /* right-side column: loupe with the text directly below it */
 .detailSide {
@@ -624,7 +644,8 @@
   border-radius: 3px;
   background-color: #14111a;
   background-repeat: no-repeat;
-  background-size: 450%; /* stronger zoom so the loupe clearly magnifies */
+  /* background-size comes inline from JS: displayed image size × zoom factor,
+     so the magnified view keeps the artwork's true aspect ratio */
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
   transition: opacity 0.25s ease;
   pointer-events: none;
@@ -653,7 +674,7 @@
 
 @media (hover: none) {
   .lens { display: none; }
-  .detailImageWrap { cursor: default; }
+  .detailImage { cursor: default; }
 }
 
 @media (prefers-reduced-motion: reduce) {
